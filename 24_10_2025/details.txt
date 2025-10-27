@@ -1,0 +1,17 @@
+🧍‍♀️ 1. User System
+Base Class: User
+Attributes: name, email, __password
+Methods:
+    login()
+    logout()
+    view_dashboard() → abstract (each subclass defines its own)
+
+2. Admin (Subclass of User)
+    - Can add/remove Instructors and Students
+    - Can add/remove Courses
+    - Can view overall platform statistics
+Methods:
+create_course(course_name, instructor)
+assign_instructor(course, instructor)
+view_all_users()
+remove_user(user_id)

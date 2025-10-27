@@ -1,0 +1,668 @@
+I have created a working model of online Learning System using all the concepts I have learned so far in OOPS.
+The main idea is:
+It has 3 types of users: Admin, Instructor, Student.
+Admin: In this we can create instructors, students, courses, and see total users and courses.
+Instructor: It is tio make courses, add lessons, publish lessons, and grade students.
+Student: With this we can see courses, enroll, see lessons, do quizzes/assignments, and check progress.
+
+Files:
+1. platform.py: manage platform, users, courses.
+2. users.py: make user classes and their actions.
+3. courses.py: make courses and lessons, keep grades.
+4. reports.py: make progress report for students.
+5. main.py: run the program and login menus.
+
+================================================================================================================
+platform.py
+
+PROGRAM wih doc strings explaning each component:
+class EduPlatform:
+    """
+    EduPlatform is the main platform managing users and courses.
+    """
+    def __init__(self):
+        self.users = []
+        self.courses = []
+        self.user_id_counter = 1
+        self.course_id_counter = 1
+
+    def add_user(self, user_obj):
+        """Add a user to the platform."""
+        self.users.append(user_obj)
+        print(f"User '{user_obj.name}' added to platform.")
+
+    def add_course(self, course_obj):
+        """Add a course to the platform."""
+        self.courses.append(course_obj)
+        print(f"Course '{course_obj.title}' added to platform.")
+
+    def get_user(self, email):
+        """Retrieve a user by email."""
+        for user in self.users:
+            if user.email == email:
+                return user
+        print("User not found.")
+        return None
+
+    def get_course(self, title):
+        """Retrieve a course by title."""
+        for course in self.courses:
+            if course.title == title:
+                return course
+        print("Course not found.")
+        return None
+
+---------------------------------------------------------------------------------------------------------------
+
+users.py
+
+PROGRAM:
+
+from abc import ABC, abstractmethod
+from reports import ProgressReport
+from courses import Course, Lesson
+
+class BaseUser(ABC):
+    """
+    Base class for all users in the platform.
+    """
+    def __init__(self, id, name, email, password='1234', role='user', is_logged_in=False):
+        self.id = id
+        self.name = name
+        self.email = email
+        self.__password = password
+        self.role = role
+        self.is_logged_in = is_logged_in
+
+    def login(self, email, password):
+        """Login user if email/password match."""
+        if email == self.email and password == self.__password:
+            self.is_logged_in = True
+            print(f"{self.name} logged in successfully!")
+            return True
+        print("Login failed: email/password mismatch.")
+        return False
+
+    def logout(self):
+        """Logout user."""
+        if self.is_logged_in:
+            self.is_logged_in = False
+            print(f"{self.name} logged out.")
+        else:
+            print("You are not logged in.")
+        return not self.is_logged_in
+
+    @abstractmethod
+    def view_dashboard(self):
+        pass
+
+
+class Admin(BaseUser):
+    """Admin user with permissions to manage the platform."""
+    def view_dashboard(self):
+        print("Admin Dashboard — manage users and courses!")
+
+    def create_instructor(self, platform, name, email, password='1234'):
+        from users import Instructor
+        instructor = Instructor(platform.user_id_counter, name, email, password)
+        platform.user_id_counter += 1
+        platform.add_user(instructor)
+        return instructor
+
+    def create_student(self, platform, name, email, password='1234'):
+        from users import Student
+        student = Student(platform.user_id_counter, name, email, password)
+        platform.user_id_counter += 1
+        platform.add_user(student)
+        return student
+
+    def create_course(self, platform, title, description, instructor):
+        course = Course(title, description, instructor)
+        platform.course_id_counter += 1
+        platform.add_course(course)
+        instructor.courses_taught.append(course)
+        return course
+
+    def platform_stats(self, platform):
+        print(f"Total Users: {len(platform.users)} | Total Courses: {len(platform.courses)}")
+
+
+class Instructor(BaseUser):
+    """Instructor user with permissions to create courses, lessons, and grade students."""
+    def __init__(self, id, name, email, password='1234', role='instructor', is_logged_in=False):
+        super().__init__(id, name, email, password, role, is_logged_in)
+        self.courses_taught = []
+
+    def view_dashboard(self):
+        print("Instructor Dashboard — manage your courses and lessons.")
+
+    def create_course(self, platform, title, description):
+        from users import Admin
+        course = Course(title, description, self)
+        platform.add_course(course)
+        self.courses_taught.append(course)
+        print(f"Course '{title}' created.")
+        return course
+
+    def add_lesson(self, course_obj, title, content):
+        lesson = Lesson(title, content)
+        course_obj.add_lesson(lesson)
+        print(f"Lesson '{title}' added to course '{course_obj.title}'.")
+        return lesson
+
+    def view_enrolled_lessons(self, course_obj):
+        print(f"\nLessons for {course_obj.title}:")
+        for lesson in course_obj.lessons:
+            status = "Published" if lesson.is_published else "Unpublished"
+            print(f"- {lesson.title} [{status}]")
+
+    def grade_student(self, course_obj, student_obj, assessment_name, score):
+        if course_obj not in self.courses_taught:
+            print("Error: Not instructor for this course.")
+            return
+        course_obj.record_grade(student_obj, assessment_name, score)
+
+
+class Student(BaseUser):
+    """Student user with permissions to enroll, view lessons, and track progress."""
+    def __init__(self, id, name, email, password='1234', role='student', is_logged_in=False):
+        super().__init__(id, name, email, password, role, is_logged_in)
+        self.enrolled_courses = []
+
+    def view_dashboard(self):
+        print("Student Dashboard — browse and track your courses.")
+
+    def browse_courses(self, platform):
+        print("\nAvailable Courses:")
+        for course in platform.courses:
+            print(f"- {course.title} by {course.instructor.name}")
+
+    def enroll(self, course_obj):
+        if course_obj not in self.enrolled_courses:
+            self.enrolled_courses.append(course_obj)
+            course_obj.enrolled_students.append(self)
+            print(f"{self.name} enrolled in {course_obj.title}.")
+        else:
+            print(f"Already enrolled in {course_obj.title}.")
+
+    def view_lessons(self, course_obj):
+        print(f"\nLessons in {course_obj.title}:")
+        for lesson in course_obj.lessons:
+            status = "Published" if lesson.is_published else "Unpublished"
+            print(f"- {lesson.title} [{status}]")
+
+    def submit_assignments(self, course_obj, assessment_name, score):
+        if course_obj in self.enrolled_courses:
+            course_obj.record_grade(self, assessment_name, score)
+        else:
+            print("You are not enrolled in this course.")
+
+    def view_progress(self):
+        for course in self.enrolled_courses:
+            report = ProgressReport(self, course)
+            report.print_report()
+
+----------------------------------------------------------------------------------------------------------------
+
+courses.py
+
+PROGRAM:
+
+class Course:
+    """
+    Represents a course with lessons, enrolled students, and grades.
+    """
+    course_counter = 0
+
+    def __init__(self, title, description, instructor, lessons=None, enrolled_students=None, grades=None, status='open'):
+        Course.course_counter += 1
+        self.course_id = Course.course_counter
+        self.title = title
+        self.description = description
+        self.instructor = instructor
+        self.lessons = lessons if lessons else []
+        self.enrolled_students = enrolled_students if enrolled_students else []
+        self.grades = grades if grades else {}
+        self.status = status
+
+    def add_lesson(self, lesson_obj):
+        """Add a lesson to the course."""
+        self.lessons.append(lesson_obj)
+        print(f"Lesson '{lesson_obj.title}' added to course '{self.title}'.")
+
+    def enroll_student(self, student_obj):
+        """Enroll a student in the course."""
+        student_obj.enroll(self)
+
+    def get_info(self):
+        """Print course information."""
+        print(f"Course Id: {self.course_id} | Title: {self.title} | Instructor: {self.instructor.name}")
+        print(f"Lessons: {len(self.lessons)} | Enrolled students: {len(self.enrolled_students)} | Status: {self.status}")
+
+    def record_grade(self, student_obj, assessment_name, score):
+        """Record a grade for a student."""
+        if student_obj not in self.enrolled_students:
+            print("Error: Student not enrolled in this course.")
+            return
+        student_id = student_obj.id
+        if student_id not in self.grades:
+            self.grades[student_id] = {}
+        self.grades[student_id][assessment_name] = score
+        print(f"Recorded {score} for {student_obj.name} in {self.title} ({assessment_name})")
+
+    def calculate_average(self, student_obj):
+        """Calculate average score for a student."""
+        student_id = student_obj.id
+        if student_id not in self.grades or not self.grades[student_id]:
+            return 0
+        scores = list(self.grades[student_id].values())
+        return sum(scores) / len(scores)
+
+
+class Lesson:
+    """
+    Represents a lesson in a course.
+    """
+    lesson_counter = 0
+
+    def __init__(self, title, content, is_published=False):
+        Lesson.lesson_counter += 1
+        self.lesson_id = Lesson.lesson_counter
+        self.title = title
+        self.content = content
+        self.is_published = is_published
+
+    def publish(self):
+        """Publish the lesson."""
+        self.is_published = True
+
+    def unpublish(self):
+        """Unpublish the lesson."""
+        self.is_published = False
+
+    def get_summary(self):
+        """Print a short summary of the lesson."""
+        print(f"Lesson: {self.title}, Preview: {self.content[:50]}...")
+------------------------------------------------------------------------------------------------------------------
+
+reports.py
+
+PROGRAM:
+
+class ProgressReport:
+    """
+    Progress report for a student in a course.
+    """
+    def __init__(self, student, course):
+        self.student = student
+        self.course = course
+        self.grades = course.grades.get(student.id, {})
+        self.average = course.calculate_average(student)
+        self.completion_percent = self._compute_completion()
+
+    def _compute_completion(self):
+        """Compute completion based on graded assessments vs total lessons."""
+        if len(self.course.lessons) == 0:
+            return 0
+        # Simple metric: each grade corresponds to a completed lesson
+        return min(100, len(self.grades) / len(self.course.lessons) * 100)
+
+    def print_report(self):
+        """Print the progress report."""
+        print(f"\nProgress Report for {self.student.name} in {self.course.title}")
+        print(f"Grades: {self.grades}")
+        print(f"Average Score: {self.average:.2f}")
+        print(f"Completion: {self.completion_percent:.1f}%\n")
+
+----------------------------------------------------------------------------------------------------------------
+
+main.py
+
+PROGRAM:
+
+from platform import EduPlatform
+from users import Admin, Instructor, Student
+from courses import Lesson
+
+# Setup platform
+platform = EduPlatform()
+
+# Create a default admin
+default_admin = Admin(platform.user_id_counter, "Admin", "admin@edu.com", "admin123")
+platform.user_id_counter += 1
+platform.add_user(default_admin)
+
+
+def admin_menu(admin):
+    while True:
+        print("\n--- Admin Menu ---")
+        print("1. Create Instructor")
+        print("2. Create Student")
+        print("3. Create Course")
+        print("4. View Platform Stats")
+        print("5. Logout")
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            name = input("Instructor Name: ")
+            email = input("Instructor Email: ")
+            password = input("Password: ")
+            admin.create_instructor(platform, name, email, password)
+        elif choice == "2":
+            name = input("Student Name: ")
+            email = input("Student Email: ")
+            password = input("Password: ")
+            admin.create_student(platform, name, email, password)
+        elif choice == "3":
+            title = input("Course Title: ")
+            description = input("Course Description: ")
+            email = input("Instructor Email: ")
+            instructor = platform.get_user(email)
+            if isinstance(instructor, Instructor):
+                admin.create_course(platform, title, description, instructor)
+            else:
+                print("Invalid instructor email.")
+        elif choice == "4":
+            admin.platform_stats(platform)
+        elif choice == "5":
+            admin.logout()
+            break
+        else:
+            print("Invalid choice!")
+
+
+def instructor_menu(inst):
+    while True:
+        print("\n--- Instructor Menu ---")
+        print("1. Create Course")
+        print("2. Add Lesson to Course")
+        print("3. View Lessons of a Course")
+        print("4. Grade Student")
+        print("5. Logout")
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            title = input("Course Title: ")
+            description = input("Course Description: ")
+            inst.create_course(platform, title, description)
+        elif choice == "2":
+            for idx, course in enumerate(inst.courses_taught, 1):
+                print(f"{idx}. {course.title}")
+            c_idx = int(input("Select course number: ")) - 1
+            course = inst.courses_taught[c_idx]
+            lesson_title = input("Lesson Title: ")
+            lesson_content = input("Lesson Content: ")
+            lesson = inst.add_lesson(course, lesson_title, lesson_content)
+            publish = input("Publish now? (y/n): ").lower()
+            if publish == "y":
+                lesson.publish()
+        elif choice == "3":
+            for idx, course in enumerate(inst.courses_taught, 1):
+                print(f"{idx}. {course.title}")
+            c_idx = int(input("Select course number: ")) - 1
+            course = inst.courses_taught[c_idx]
+            inst.view_enrolled_lessons(course)
+        elif choice == "4":
+            for idx, course in enumerate(inst.courses_taught, 1):
+                print(f"{idx}. {course.title}")
+            c_idx = int(input("Select course number: ")) - 1
+            course = inst.courses_taught[c_idx]
+            for idx, student in enumerate(course.enrolled_students, 1):
+                print(f"{idx}. {student.name}")
+            s_idx = int(input("Select student number: ")) - 1
+            student = course.enrolled_students[s_idx]
+            assessment_name = input("Assessment Name: ")
+            score = float(input("Score: "))
+            inst.grade_student(course, student, assessment_name, score)
+        elif choice == "5":
+            inst.logout()
+            break
+        else:
+            print("Invalid choice!")
+
+
+def student_menu(stud):
+    while True:
+        print("\n--- Student Menu ---")
+        print("1. Browse Courses")
+        print("2. Enroll in Course")
+        print("3. View Lessons")
+        print("4. Submit Assignment/Quiz")
+        print("5. View Progress")
+        print("6. Logout")
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            stud.browse_courses(platform)
+        elif choice == "2":
+            title = input("Course Title to Enroll: ")
+            course = platform.get_course(title)
+            if course:
+                stud.enroll(course)
+        elif choice == "3":
+            title = input("Course Title: ")
+            course = platform.get_course(title)
+            if course and course in stud.enrolled_courses:
+                stud.view_lessons(course)
+            else:
+                print("You are not enrolled in this course.")
+        elif choice == "4":
+            title = input("Course Title: ")
+            course = platform.get_course(title)
+            if course and course in stud.enrolled_courses:
+                assessment = input("Assessment Name: ")
+                score = float(input("Score: "))
+                stud.submit_assignments(course, assessment, score)
+            else:
+                print("You are not enrolled in this course.")
+        elif choice == "5":
+            stud.view_progress()
+        elif choice == "6":
+            stud.logout()
+            break
+        else:
+            print("Invalid choice!")
+
+
+def main():
+    print("Welcome to EduPlatform CLI")
+    while True:
+        print("\n--- Login ---")
+        email = input("Email: ")
+        password = input("Password: ")
+        user = platform.get_user(email)
+        if user and user.login(email, password):
+            if isinstance(user, Admin):
+                admin_menu(user)
+            elif isinstance(user, Instructor):
+                instructor_menu(user)
+            elif isinstance(user, Student):
+                student_menu(user)
+        else:
+            print("Login failed. Try again.")
+
+
+if __name__ == "__main__":
+    main()
+
+---------------------------------------------------------------------------------------------------------------
+===============================================================================================================
+OUTPUT:
+
+User 'Admin' added to platform.
+Welcome to EduPlatform CLI
+
+--- Login ---
+Email: admin@edu.com
+Password: admin123
+Admin logged in successfully!
+
+--- Admin Menu ---
+1. Create Instructor
+2. Create Student
+3. Create Course
+4. View Platform Stats
+5. Logout
+Choose an option: 1
+Instructor Name: Neha
+Instructor Email: neha@edu.com
+Password: teach123
+User 'Neha' added to platform.
+
+--- Admin Menu ---
+1. Create Instructor
+2. Create Student
+3. Create Course
+4. View Platform Stats
+5. Logout
+Choose an option: 2
+Student Name: Ravi
+Student Email: ravi@edu.com
+Password: learn123
+User 'Ravi' added to platform.
+
+--- Admin Menu ---
+1. Create Instructor
+2. Create Student
+3. Create Course
+4. View Platform Stats
+5. Logout
+Choose an option: 3
+Course Title: Python Basics
+Course Description: Learn Python fundamentals
+Instructor Email: neha@edu.com
+Course 'Python Basics' added to platform.
+
+--- Admin Menu ---
+1. Create Instructor
+2. Create Student
+3. Create Course
+4. View Platform Stats
+5. Logout
+Choose an option: 5
+Admin logged out.
+
+--- Login ---
+Email: neha@edu.com
+Password: teach123
+Neha logged in successfully!
+
+--- Instructor Menu ---
+1. Create Course
+2. Add Lesson to Course
+3. View Lessons of a Course
+4. Grade Student
+5. Logout
+Choose an option: 2
+1. Python Basics
+Select course number: 1
+Lesson Title: Variables
+Lesson Content: Introduction to variables
+Lesson 'Variables' added to course 'Python Basics'.
+Lesson 'Variables' added to course 'Python Basics'.
+Publish now? (y/n): y
+
+--- Instructor Menu ---
+1. Create Course
+2. Add Lesson to Course
+3. View Lessons of a Course
+4. Grade Student
+5. Logout
+Choose an option: 2
+1. Python Basics
+Select course number: 1
+Lesson Title: Loops
+Lesson Content: For and while loops
+Lesson 'Loops' added to course 'Python Basics'.
+Lesson 'Loops' added to course 'Python Basics'.
+Publish now? (y/n): y
+
+--- Instructor Menu ---
+1. Create Course
+2. Add Lesson to Course
+3. View Lessons of a Course
+4. Grade Student
+5. Logout
+Choose an option: 5
+Neha logged out.
+
+--- Login ---
+Email: ravi@edu.com
+Password: learn123
+Ravi logged in successfully!
+
+--- Student Menu ---
+1. Browse Courses
+2. Enroll in Course
+3. View Lessons
+4. Submit Assignment/Quiz
+5. View Progress
+6. Logout
+Choose an option: 2
+Course Title to Enroll: Python Basics
+Ravi enrolled in Python Basics.
+
+--- Student Menu ---
+1. Browse Courses
+2. Enroll in Course
+3. View Lessons
+4. Submit Assignment/Quiz
+5. View Progress
+6. Logout
+Choose an option: 3
+Course Title: Python Basics
+
+Lessons in Python Basics:
+- Variables [Published]
+- Loops [Published]
+
+--- Student Menu ---
+1. Browse Courses
+2. Enroll in Course
+3. View Lessons
+4. Submit Assignment/Quiz
+5. View Progress
+6. Logout
+Choose an option: 4
+Course Title: Python Basics
+Assessment Name: Quiz 1
+Score: 88
+Recorded 88.0 for Ravi in Python Basics (Quiz 1)
+
+--- Student Menu ---
+1. Browse Courses
+2. Enroll in Course
+3. View Lessons
+4. Submit Assignment/Quiz
+5. View Progress
+6. Logout
+Choose an option: 4
+Course Title: Python Basics
+Assessment Name: Quiz 2
+Score: 92
+Recorded 92.0 for Ravi in Python Basics (Quiz 2)
+
+--- Student Menu ---
+1. Browse Courses
+2. Enroll in Course
+3. View Lessons
+4. Submit Assignment/Quiz
+5. View Progress
+6. Logout
+Choose an option: 5
+
+Progress Report for Ravi in Python Basics
+Grades: {'Quiz 1': 88.0, 'Quiz 2': 92.0}
+Average Score: 90.00
+Completion: 100.0%
+
+
+--- Student Menu ---
+1. Browse Courses
+2. Enroll in Course
+3. View Lessons
+4. Submit Assignment/Quiz
+5. View Progress
+6. Logout
+Choose an option: 6
+Ravi logged out.
