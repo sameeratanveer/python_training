@@ -1,0 +1,573 @@
+Python Assignment - 15.10.2025
+Topics: Strings, sets, frozen sets:
+------------------------------------------------------
+
+1. Strings: 
+Strings in python is a textual data that is enclosed in ' ' or " ". It is like a array of characters. 
+
+# Example of strings are:
+my_name = 'sameera'
+company = "Bilvantis"
+
+# strings within "" or  ''
+Program: 
+daily_quote = "Today he wrote the quote: "Practice makes man perfect!""
+print(daily_quote)
+
+Output: 
+  File "C:\Users\SameeraTanveer\OneDrive - BILVANTIS TECHNOLOGIES PRIVATE LIMITED\Desktop\python\fundamentals_14_10\python_15_10_2025\strings_in_python.py", line 12
+    daily_quote = "Today he wrote the quote: "Practice makes man perfect!""
+                                              ^^^^^^^^
+SyntaxError: invalid syntax
+
+Here it is syntax error. It says that if outer string are "" then inside this we can not have "" again. If still we want then we can use escape \ character to have ' or " inside overlapping with outer string syntax. 
+
+Corrected Program:
+daily_quote = "Today he wrote the quote: \"Practice makes man perfect!\""
+print(daily_quote)
+
+Output: 
+Today he wrote the quote: "Practice makes man perfect!"
+
+weather_today = "It's raining today"
+print(weather_today)
+Output:
+It's raining today
+
+weather_again = 'It\'s raining today'
+print(weather_again)
+Output: 
+It's raining today
+
+-> Multiline string:
+# Multiline String: ''' ''' or """ """
+poem = """Twinkle twinkle little star
+How I wonder what you are
+Up above the world so high
+Like a diamond in the sky!"""
+print(poem)
+
+Output:
+Twinkle twinkle little star
+How I wonder what you are
+Up above the world so high
+Like a diamond in the sky!
+
+----------------------------------------------------
+-> len() : length of the string, even counts the spaces, multiple spaces. 
+# 1. Len() : length of the string:
+name = 'sameera '
+print(len(name))
+
+Output:
+10
+
+---------------------------------------------------------
+
+-> IN in Strings:
+# 2. IN operator for strings
+# in operator is used to check if the substring of the string is present inside it
+# Question: Check if twinkle is present inside the poem?
+print('twinkle' in poem) # it returns True or False.
+
+Output: 
+True
+
+--------------------------------------------------------
+
+-> NOT IN in strings:
+# 3. NOT IN operator for strings:
+# not in checks if the substring not there in the string (opposite of in)
+print('twinkle' not in poem) # true if it is not there else false
+
+Output:
+False
+
+--------------------------------------------------------
+
+STRING SLICING AND INDEXING:
+
+Index is the position of the character inside the string.
+Index starts from 0 and the position increases by +1 
+
+So, if the string is: 'Hello'
+then,
+H position is 0
+e position is 1
+l position is 2
+l position is 3
+o position is 4
+
+Therefore length of 'Hello' is 5 that is last character position + 1
+
+len() == position of last character + 1
+
+Program:
+
+sentence = 'Hello world! Welcome.'
+print("Index of first character is: ", sentence[0])
+print("Index of last character is : ", sentence[len(sentence)-1])
+print("Index of e in the sentence is: ", sentence.index('e'))
+print("Index of first letter of the substring 'Hello' in the sentence is", sentence.index('Hello'))
+
+Index of first character is:  H
+Index of last character is :  .
+Index of e in the sentence is:  1
+Index of first letter of the substring 'Hello' in the sentence is 0
+
+---------------------------------------------------------
+SLICING means accessing the substring or sub part of the whole string.
+
+daily_quote = "Today he wrote the quote: \"Practice makes man perfect!\""
+# Q: Only get the word Practice from the daily_quote
+print(daily_quote[27:36])
+
+Output:
+Practice 
+
+# Q: first 5 characters from the string:
+print(daily_quote[:5])
+
+Output:
+Today
+
+# Q: Last 4 characters:
+print(daily_quote[-4:])
+
+Output:
+ct!"
+
+
+# Q: Get the characters placed on even positions:
+print(daily_quote[::2])
+
+Output:
+Tdyh rt h ut:"rciemksmnpret"
+
+
+# Q. Reverse a string using negative slicing.
+print("Reverse: ", daily_quote[::-1])
+
+Output:
+Reverse:  "!tcefrep nam sekam ecitcarP" :etouq eht etorw eh yadoT
+
+# Q. Index out of range:
+print(daily_quote[len(daily_quote)-2: len(daily_quote) +5])
+
+Output:
+!"
+
+Because in that range only 2 indexes were available!
+-----------------------------------------------------
+
+-> Modifying Strings:
+
+# 1. UPPER() : converts the string to an uppercase letters.
+print(daily_quote.upper())
+
+Output:
+TODAY HE WROTE THE QUOTE: "PRACTICE MAKES MAN PERFECT!"
+
+
+# 2. lower() : converts each character of the string to its equivalent lower case character.
+print(daily_quote.lower())
+
+Output:
+today he wrote the quote: "practice makes man perfect!"
+
+# 3. strip() : removes whitespaces
+print('   hello  '.strip())
+print('//hello//'.strip('/'))
+
+Output:
+hello
+hello
+
+# 4. lstrip() : removes left whitespaces
+print('   hello  '.lstrip())
+print('%hello%%'.lstrip('%'))
+
+Output:
+hello  
+hello%%
+
+# 5. rstrip() : removes right side whitespaces in string
+print('   hello  '.rstrip())
+print('__hello__'.rstrip('_'))
+
+Output:
+   hello
+__hello
+
+# 6. replace() : replaces character or substring of the string with other character or substring
+print('   hello   '.replace(' ', '_'))
+print('hello'.replace('hel', 'bel'))
+
+Output: 
+___hello___
+bello
+
+replace() replaces every instance of the old value.. all it replaces
+
+# 7. split() : split method splits the string into substring when it find the given separator.
+print('hello,world'.split(','))
+print('welcome/home'.split('/'))
+print('hii..hello'.split('..'))
+
+Output:
+['hello', 'world']
+['welcome', 'home']
+['hii', 'hello']
+
+we can split based on one character, or a substring.. The result is list.
+
+# 7.1: splitlines() : splits the string on line breaks
+print(poem.splitlines())
+
+Output:
+['Twinkle twinkle little star', 'How I wonder what you are', 'Up above the world so high', 'Like a diamond in the sky!']
+
+
+# 8. count() : returns the count of the value inside a string
+print('hello'.count('l'))
+print(daily_quote.count(' '))
+print(poem.count('\n'))
+
+Output:
+2
+8
+3
+
+# 9. index() : finds the index of the character or starting position of the substring
+print('hello'.index('l')) # returns first instance index.
+print('hello'.index('llo'))
+
+# 9.1: rindex() : returns the last instance index.
+print('hello'.rindex('l'))
+print('hello'.rindex('el'))
+
+Output:
+2
+2
+3
+1
+
+# 10. find() : finds the index of the character or starting position of the substring
+print('hello'.find('l'))
+print('hello'.find('llo'))
+
+# 10.1: rfind() : right most index
+print('hello'.rfind('l'))
+print('hello'.rfind('llo'))
+
+Output:
+2
+2
+3
+2
+
+------> DIFFERENCE BETWEEN find() and index() 
+find() returns -1 if the character or substring is not found in the string.
+index() throws an error ValueError
+
+
+# 11. startswith() : checks if the string starts with the specified character or substring
+print('hello'.startswith('h'))
+print('hello'.startswith('hell'))
+print('hello'.startswith(('he', 'hel', 'wal')))
+print('hello'.startswith('h',2,len('hello')))
+
+Output:
+True
+True
+True
+False
+
+# 12. endswith() : checks if the string ends with the specified character or the substring
+print('hello'.endswith('o'))
+print('hello'.endswith('ello'))
+print('hello'.endswith(('he', 'hel', 'ello')))
+print('hello'.endswith('o',2,len('hello')))
+
+Output:
+True
+True
+True
+True
+
+# ------------ checks methods : is... --------------
+
+# 1. isalpha() : checks if the string contains all alphabets onlu
+print('hello'.isalpha())
+print('h@lla'.isalpha()) # special character
+print('héllo'.isalpha()) # é is a latin character
+
+Output:
+True
+False
+True
+
+# 2. isalnum() : checks combination of numbers + characters
+print('hello123'.isalnum())
+print('__la34'.isalnum()) # _  special character
+print('héllo123'.isalnum()) # é is a latin character
+
+Output:
+True
+False
+True
+
+# 3. isascii() : checks if the string all characters are ascii
+print('hellp'.isascii())
+print('65_'.isascii())
+print('héllo123'.isascii())
+print('£euro'.isascii())
+print('🎉congrats'.isascii())
+
+Output:
+True
+True
+False
+False
+False
+
+
+# 4. isnumeric(), isdigit(), isdecimal() : returns true if all characters inside the string is specific.
+
+# 5. islower(), isupper() : checks if all characters in the strings are lower or upper respectively
+
+# 6. isspace(), istitle()
+
+# 7. join() : joins the string with the iterable.
+print(','.join(['Hi', '123']))
+
+Output:
+Hi,123
+
+# 8. swapcase() : lower case becomes uppercase, uppercase becomes lowercase
+print('Hello'.swapcase())
+
+Output:
+hELLO
+
+# 9. zfill() :
+print('hello'.zfill(10)) # fills the hello with leading zeroes until the length becomes 10.
+
+Output:
+00000hello
+
+# ------------------- CONCATENATE string: -------------
+# using +
+print('hello' + ' ' +  'world' + '\n' + 'welcome!')
+
+Output: 
+hello world
+welcome!
+
+# --------------- FORMAT STRINGS ----------------
+# using f'' string
+name = 'sameera'
+age = 21
+marks = 8.19
+details = f'My name is {name} and I am {age} years old\nI got {marks} points'
+print(details)
+
+Output:
+My name is sameera and I am 21 years old
+I got 8.19 points
+
+
+details = f'My name is {name} and I am {age} years old\nI got {marks:.6f} points'
+print(details)
+
+Output:
+My name is sameera and I am 21 years old
+I got 8.190000 points
+
+details = f'My name is {name} and I am {age} years old\nI got {marks*10} percentage'
+print(details)
+
+Output:
+My name is sameera and I am 21 years old
+I got 81.89999999999999 percentage
+
+# using .format()
+details = 'My name is {} and I am {} years old'.format(name, age)
+print(details)
+
+Output:
+My name is sameera and I am 21 years old
+
+
+=============================================================================================
+
+SETS: 
+
+'''
+Sets: set is a datatype in python that stores multiple values or elements in a single variable or container
+
+Set is unorders, unchangeable, and unindexed datatype that means the elements inside the set cant be accessed using indexes
+Set is mutable but the elements inside it can not be changed because we cant use index to specify the element and then change that element. either we add the new value and delete the old value but we cant access the old value and mutate it with the other value.
+'''
+1. 
+
+set1 = set()
+print(type(set1)) 
+
+Output:
+<class 'set'>
+
+2. 
+
+set2 = {}
+print(type(set2))
+
+Output:
+<class 'dict'>
+
+3. 
+
+fruits = {'apple', 'banana', 'cherry'}
+print(type(fruits))
+print(fruits)
+
+Output:
+<class 'set'>
+{'apple', 'banana', 'cherry'}
+
+4. 
+
+fruits1 =set(('apple', 'banana', 'cherry'))
+print(type(fruits1))
+print(fruits1)
+
+Output:
+<class 'set'>
+{'apple', 'banana', 'cherry'}
+
+5. 
+
+data = {'fruit', 'vegetable', 28, True, 1, 10.14}
+print(type(data))
+print(data)
+
+Output:
+<class 'set'>
+{'fruit', True, 'vegetable', 10.14, 28}
+
+True == 1 that's why we cant see 1 in the output
+
+6. 
+
+# Sets doesnt allow duplicates
+dupset = {'fruit', 'vegetable', 28, True, 28, 1, 10.14}
+print(dupset)
+
+Output:
+
+{'fruit', True, 'vegetable', 10.14, 28}
+
+
+-----------------------------------------------------------
+
+1. len() : returns #elements:
+print(len(dupset))
+
+OutputL
+5
+
+----------------------------------------------------------
+We can not access the elements inside the set, we can do this traversal using for loop.
+
+We can use in membership operator to check if the element is present inside the set or not.
+
+Once the set is created we can not change the elements inside set. but we can add and remove the elemets
+
+------------------------------------------------------------------
+Add items in set:
+
+# 1. add() : to add element in set
+data.add(10)
+print(data)
+
+Output:
+
+{'vegetable', True, 10, 10.14, 'fruit', 28}
+
+
+# 2. update() : add iterable in set
+data.update(['hello', 3, (20, 30, 40)])
+print(data)
+
+OutputL
+
+{True, 3, 10, 10.14, (20, 30, 40), 28, 'vegetable', 'hello', 'fruit'}
+
+
+# 3. remove() : remove an item
+data.remove(True)
+print(data)
+
+# 4. discard() : removes items
+data.discard('vegetable')
+
+Output:
+{True, 'hello', 3, 10, 10.14, 'fruit', 'vegetable', (20, 30, 40), 28}
+{'hello', 3, 10, 10.14, 'fruit', 'vegetable', (20, 30, 40), 28}
+
+
+if element is not there in the set then remove will raise an error, whereas discard will not. 
+
+# 5. pop() : removes any random item from the set
+data.pop()
+print(data)
+
+Output:
+{'hello', 10.14, 10, (20, 30, 40), 28, 'fruit'}
+
+
+# 6. clear(): empties the set
+data.clear()
+print(data)
+
+# 7. del : deltes the whole set from the memory
+del data
+
+Output:
+set()
+
+-----------------------------------------------------------------
+
+Join sets:
+
+
+# 1. union
+dupset.union(fruits)
+print(dupset)
+
+Output:
+{True, 'fruit', 'vegetable', 10.14, 28}
+
+# 2. intersect
+fruits.intersection(fruits1)
+print(fruits)
+
+Output:
+{'apple', 'banana', 'cherry'}
+
+
+---------------------------------------------------------------
+
+# -- frozenset() is an immutable version of set means we cant add or delete elemets from the set
+dupset = frozenset(dupset)
+print(type(dupset))
+print(dupset)
+print(dupset.add(10))
+
+Output:
+<class 'frozenset'>
+frozenset({'vegetable', True, 10.14, 28, 'fruit'})
+AttributeError: 'frozenset' object has no attribute 'add'
+
+# isupperset() -- returns true if all elements of other set is present in
+# issubset() -- returns true if all elements of this main set is present in subset
