@@ -1,0 +1,289 @@
+1. 
+
+1.1: create books:
+books = {
+    'python programming': {
+        'author': 'Guido Von Rossum',
+        'year': 1991,
+        'available': True
+    },
+    'Pride and Prejudice':{
+       'author':'Jane Austen' ,
+        'year':1813,
+        'available': True
+    },
+    'The Great Gatsby':{
+        'author':'F. Scott Fitzgerald' ,
+        'year':1925,
+        'available': True
+    },
+    'To Kill a Mockingbird':{
+        'author':'Harper Lee' ,
+        'year':1960,
+        'available': True
+    },
+    'Anna Karenina':{
+        'author':'Leo Tolstoy' ,
+        'year':1877,
+        'available': True
+    }
+}
+-----------------------------------------------------------------------
+1.2: 
+# 2. Display all available books:
+print("Avaialbe books are:")
+for key,value in books.items():
+    if books.get(key).get('available'):
+        print(key)
+
+Output:
+Avaialbe books are:
+python programming
+Pride and Prejudice
+The Great Gatsby
+To Kill a Mockingbird
+Anna Karenina
+
+-----------------------------------------------------------------------
+
+1.3: Allow user to borrow a book. and if already borrowed then print book not found or not available for borrowing
+
+# 3. Allow user to borrow a book.
+book = input(f"Enter the book title from these {books.keys()} to borrow: ")
+book_exist = False
+available_flag = False
+for key, value in books.items():
+    if key.lower() == book.lower():
+        book_exist = True
+        if books[key]['available']:
+            available_flag = False
+            print("Available to borrow")
+            books[key]['available'] = False
+            print("Borrowed!")
+            break
+else:
+    if not book_exist:
+        print("Book not found")
+    elif not available_flag:
+        print("Not available for borrowing")
+
+Output1: 
+Enter the book title from these dict_keys(['python programming', 'Pride and Prejudice', 'The Great Gatsby', 'To Kill a Mockingbird', 'Anna Karenina']) to borrow: python programming
+Available to borrow
+Borrowed!
+
+Output 1.2: case-insensitive:
+Enter the book title from these dict_keys(['python programming', 'Pride and Prejudice', 'The Great Gatsby', 'To Kill a Mockingbird', 'Anna Karenina']) to borrow: PyThon Programming
+Available to borrow
+Borrowed!
+
+Output2: I have set the available to False.
+Enter the book title from these dict_keys(['python programming', 'Pride and Prejudice', 'The Great Gatsby', 'To Kill a Mockingbird', 'Anna Karenina']) to borrow: python programming
+Not available for borrowing
+
+Output3: 
+Enter the book title from these dict_keys(['python programming', 'Pride and Prejudice', 'The Great Gatsby', 'To Kill a Mockingbird', 'Anna Karenina']) to borrow: borrowing
+Book not found
+
+-------------------------------------------------------------------
+# 4. Allow user to return the book
+return_book = input(f"Return book name: {books.keys()} :")
+available_to_return = False
+for key, value in books.items():
+    if return_book.lower() == key.lower() and not books[key]['available']:
+        available_to_return = True
+        print("Book found and available to return")
+        books[key]['available'] = True
+        print("Return completed!")
+else:
+    if not available_to_return:
+        print('book not found or not available to return')
+
+Output:
+Return book name: dict_keys(['python programming', 'Pride and Prejudice', 'The Great Gatsby', 'To Kill a Mockingbird', 'Anna Karenina']) :python Programming
+Book found and available to return
+Return completed!
+
+Output2:
+Return book name: dict_keys(['python programming', 'Pride and Prejudice', 'The Great Gatsby', 'To Kill a Mockingbird', 'Anna Karenina']) :python Programming
+book not found or not available to return
+
+
+===========================================================================================================================================================
+
+Question2 : 
+
+2.1: create dictionary with atleast 5 employees:
+employees = {
+    101:{
+        'name':'emp1',
+        'projects_completed':['p1','p2','p3'],
+        'rating':3.0
+    },
+    102:{
+        'name':'emp2',
+        'projects_completed':['p2','p3'],
+        'rating':4.5
+    },
+    103:{
+        'name':'emp3',
+        'projects_completed':['p3'],
+        'rating':2.47
+    },
+    104:{
+        'name':'emp4',
+        'projects_completed':['p1','p2','p3', 'p4'],
+        'rating':4.8
+    },
+    105:{
+        'name':'emp5',
+        'projects_completed':['p1','p2','p3'],
+        'rating':3.91
+    },
+}
+------------------------------------------------------------------------------------------------------------------------
+
+2.2: For each employee Print total projects completed (len() of list).
+
+for key, value in employees.items():
+    print(f'Employee id:{key}, Employee Name: {employees[key]['name']}, Total Projects: {len(employees[key]['projects_completed'])}')
+
+Output:
+Employee id:101, Employee Name: emp1, Total Projects: 3
+Employee id:102, Employee Name: emp2, Total Projects: 2
+Employee id:103, Employee Name: emp3, Total Projects: 1
+Employee id:104, Employee Name: emp4, Total Projects: 4
+Employee id:105, Employee Name: emp5, Total Projects: 3
+
+---------------------------------------------------------------------------------------------------------------------------
+
+2.3: performace of the employee
+
+for key, value in employees.items():
+    print(f'Employee id:{key}, Employee Name: {employees[key]['name']}, Total Projects: {len(employees[key]['projects_completed'])}', end =' Performance: ')
+    print("Excellent Performer") if employees[key]['rating'] >= 4.5 else print("Good performer") if employees[key]['rating'] >= 3.5 else print("Average performer") if employees[key]['rating'] >= 2.5 else print("Needs Improvement")
+
+Output: 
+Employee id:101, Employee Name: emp1, Total Projects: 3 Performance: Average performer
+Employee id:102, Employee Name: emp2, Total Projects: 2 Performance: Excellent Performer
+Employee id:103, Employee Name: emp3, Total Projects: 1 Performance: Needs Improvement
+Employee id:104, Employee Name: emp4, Total Projects: 4 Performance: Excellent Performer
+Employee id:105, Employee Name: emp5, Total Projects: 3 Performance: Good performer
+
+-------------------------------------------------------------------------------------------------------------------------------
+2.4: Highest rating:
+# 3. Find and printt The employee with the highest rating
+
+ratings = []
+for key, value in employees.items():
+    ratings.append(employees[key]['rating'])
+print(ratings)
+print(f"Highest rating = {sorted(ratings, reverse=True)[0]}")
+
+Output:
+[3.0, 4.5, 2.47, 4.8, 3.91]
+Highest rating = 4.8
+
+--------------------------------------------------------------------------------------------------------------------------------
+2.5: The average rating across all employees
+
+total = 0
+for key, value in employees.items():
+    total += employees[key]['rating']
+print(f'Average rating = {total/len(list(employees.keys()))}')
+
+Output:
+Average rating = 3.7359999999999998
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+2.6: Display the names of employees who worked on a project named "Data Migration" (use membership operator in).
+
+for key, value in employees.items():
+    if 'p1' in employees[key]['projects_completed']:
+        print(employees[key]['name'])
+
+Output:
+emp1
+emp4
+emp5
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+3. 
+
+# online shopping system
+# 1. Create a dictionary of items with prices (e.g., "Laptop": 55000, "Mouse": 700, ...).
+items = {
+    'laptop': 55000,
+    'mouse': 700,
+    'keyboard':500,
+    'pen':10,
+    'bottle':200,
+    'mobile':40000
+}
+
+
+# 2. Adding the user purchase into the cart with the structure=> item : [quantity, quantity*price]
+cart = {}
+continuing = True
+while continuing:
+    item = input(f"Enter the item to purchase. Options are: \n{items.keys()}: ").lower()
+    quantity = int(input("Enter the quantity: "))
+    while quantity < 0:
+        quantity = int(input("Please give valid quantity: Quantity must be > 0: "))
+    cart[item] = [quantity, quantity*items[item]]
+    cont = input("To continue shopping enter y/Y else n/N: ").lower()
+    if cont == 'n':
+        continuing = False
+
+
+# 3. Calcualte total amount
+total_amount = 0
+for key,value in cart.items():
+    total_amount += cart[key][1]
+
+# 4. calculate discount:
+discount = total_amount * 0.15 if total_amount > 50000 else total_amount * 0.10 if total_amount > 25000 else 0
+
+# calculate final bill and add 5% gst
+final_bill = (total_amount - discount) + (1 + 0.05) # add 5% gst
+
+# Printing bill
+
+print("---------- BILL ----------")
+# Display the bill.
+for key, value in cart.items():
+    print(f'{key} : {cart[key][0]} * {items[key]} => {cart[key][1]}')
+print("---------------------------------")
+print(f"Total Before Discount: {total_amount}")
+print(f'Discount: ', end=' ')
+print("15%") if total_amount > 50000 else print("10%") if total_amount > 25000 else print("No Discount")
+print("GST: 5%")
+print(f"Final Amount: {final_bill}")
+print("--------------------------------------")
+print("Thank you for shopping!")
+
+Output:
+Enter the item to purchase. Options are: 
+dict_keys(['laptop', 'mouse', 'keyboard', 'pen', 'bottle', 'mobile']): laptop
+Enter the quantity: 1
+To continue shopping enter y/Y else n/N: y
+Enter the item to purchase. Options are: 
+dict_keys(['laptop', 'mouse', 'keyboard', 'pen', 'bottle', 'mobile']): mouse
+Enter the quantity: 2
+To continue shopping enter y/Y else n/N: n
+
+---------- BILL ----------
+laptop : 1 * 55000 => 55000
+mouse : 2 * 700 => 1400
+---------------------------------
+Total Before Discount: 56400
+Discount:  15%
+GST: 5%
+Final Amount: 47941.05
+--------------------------------------
+Thank you for shopping!
+
+
+ 
