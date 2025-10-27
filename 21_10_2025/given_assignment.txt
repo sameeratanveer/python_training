@@ -1,0 +1,182 @@
+'''
+1.
+write a program to get factorial of a number using recursion
+'''
+
+PROGRAM:
+
+def recursive_factorial(num):
+    if num == 1 or num == 0:
+        return 1
+    else:
+        return num * recursive_factorial(num-1)
+print(recursive_factorial(5))
+
+OUTPUT:
+120
+================================================================================================================
+
+'''
+2. Write a recursive function to reverse a string.
+'''
+
+PROGRAM:
+
+def recursive_reverse_string(s, char):
+    if char < 0:
+        return ''
+    else:
+        return s[char] + recursive_reverse_string(s, char-1)
+print(recursive_reverse_string('string', len('string')-1))
+
+OUTPUT:
+gnirts
+
+============================================================================================================
+
+'''
+3.
+Write a recursive function that generates all subsets (the power set) of a given list of elements.
+'''
+
+PROGRAM:
+
+def recursive_all_subsets(nums):
+    if not nums:
+        return [[]]
+    first = nums[0]
+    rest = recursive_all_subsets(nums[1:])
+    return rest + [[first] + subset for subset in rest]
+
+print(recursive_all_subsets([1,2,3]))
+
+OUTPUT:
+[[], [3], [2], [2, 3], [1], [1, 3], [1, 2], [1, 2, 3]]
+
+==============================================================================================================
+'''
+4.
+Write a recursive function to generate all permutations of a given string.'''
+
+PROGRAM:
+
+def permutation(s):
+    if len(s) == 1:
+        return [s]  # only one permutation
+    result = []
+    for i in range(len(s)):
+        # take the current character
+        current = s[i]
+        # remaining characters
+        remaining = s[:i] + s[i+1:]
+        # recurse on remaining
+        for p in permute(remaining):
+            result.append(current + p)
+    return result
+print(permutation("ABC"))
+
+OUTPUT:
+['ABC', 'ACB', 'BAC', 'BCA', 'CAB', 'CBA']
+
+===============================================================================================================
+
+'''
+1.
+1.You are building a billing system where you need a function `calculate_total(price, quantity)` that returns the total price. How would you design the function to accept only positional arguments?
+
+'''
+PROGRAM:
+
+def calculate_total(price, quantity, /):
+    return price * quantity
+print(calculate_total(10,2))
+# print(calculate_total(price=10, quantity=2))
+
+OUTPUT:
+20
+
+=================================================================================================================
+'''
+2.2. In a video game, players can choose their character's weapon. If no weapon is selected, the default should be "Sword". 
+- Write a function `choose_weapon(player_name, weapon="Sword")`.  
+- What happens if a player does not specify the weapon?
+'''
+
+PROGRAM:
+
+def choose_weapon(player_name, weapon='sword'):
+    print(f'Name: {player_name} chosen weapon: {weapon}')
+choose_weapon('sam','gun')
+choose_weapon('sam')
+
+OUTPUT:
+Name: sam chosen weapon: gun
+Name: sam chosen weapon: sword
+==========================================================================================================
+'''
+3.
+3. You are creating a report generator. A function `generate_report(title, author, date)` must allow passing arguments out of order for flexibility. How would you call the function using keyword arguments so that `date` is passed first, then `title`, then `author`?
+'''
+
+PROGRAM:
+
+def generate_report(title, author, date):
+    print(f'Title:{title}\nAuthor:{author}\nDate:{date}')
+print(generate_report(date='2025-10-21', title='Python Assignment', author='Sameera'))
+
+OUTPUT:
+Title:Python Assignment
+Author:Sameera
+Date:2025-10-21
+None
+
+==============================================================================================================
+
+'''
+4.
+4. You're building a restaurant app where customers can order multiple dishes. You need a function `order_food(*dishes)` that can accept any number of dish names. How would you design the function so it prints all the dishes ordered, regardless of how many are passed?
+'''
+
+PROGRAM:
+
+def order_food(*dishes):
+    print('Dishes Ordered')
+    i = 1
+    for dish in dishes:
+        print(f'{i}.{dish}')
+        i = i + 1
+
+order_food('Burger', 'Pizza')
+order_food('Pizza', 'Burger', 'rice', 'dal')
+
+OUPUT:
+Dishes Ordered
+1.Burger
+2.Pizza
+Dishes Ordered
+1.Pizza
+2.Burger
+3.rice
+4.dal
+
+=============================================================================================================
+
+'''
+5. 
+5. In a movie booking system, you want a function `book_ticket(details)` that accepts various information like `name`, `movie`, `seats`, `show_time`, etc. How can you design the function to accept different types of details and display them?
+'''
+
+PROGRAM:
+
+def book_ticket(**details):
+    for key, value in details.items():
+        print(f'{key}:{value}')
+print(book_ticket(name='Sameera', movie='xyz', seats=2, show_time='11:15'))
+
+OUTPUT:
+name:Sameera
+movie:xyz
+seats:2
+show_time:11:15
+None
+===============================================================================================================
