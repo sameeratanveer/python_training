@@ -1,0 +1,468 @@
+1 : 
+
+Q1. Remove Duplicates but Keep Order
+nums = [4, 5, 4, 6, 5, 7, 4]
+Expected Output: [4, 5, 6, 7]
+
+PROGRAM1:
+
+nums = [4, 5, 4, 6, 5, 7, 4]
+outp = list(set(nums))
+outp.sort()
+print(outp)
+
+
+OUTPUT:
+
+[4, 5, 6, 7]
+
+PROGRAM 2:
+nums = [4, 5, 4, 6, 5, 7, 4]
+outp = []
+for n in nums:
+    if n not in outp:
+        outp.append(n)
+print(outp)
+
+OUTPUT:
+
+[4, 5, 6, 7]
+===============================================================================================================
+
+2. 
+
+'''
+Q2. Flatten a Nested List
+data = [1, [2, 3, [4, 5]], 6]
+Expected Output: [1, 2, 3, 4, 5, 6]
+'''
+
+PROGRAM1 :
+
+data = [1, [2, 3, [4, 5]], 6]
+outp = []
+for element in data:
+    if isinstance(element, list):
+        for element2 in element:
+            if isinstance(element2, list):
+                outp.extend(element2)
+            else:
+                outp.append(element2)
+    else:
+        outp.append(element)
+print(outp)
+
+
+OUTPUT:
+[1, 2, 3, 4, 5, 6]
+
+PROGRAM 2:
+data = [1, [2, 3, [4, 5]], 6]
+outp = data[:]
+i = 0
+while i < len(outp):
+    if isinstance(outp[i], list):
+        outp[i:i+1] = outp[i]   
+    else:
+        i += 1
+print(outp)
+
+
+OUTPUT:
+[1, 2, 3, 4, 5, 6]
+
+
+================================================================================================================
+
+3. 
+
+'''
+Q3. Group Consecutive Elements
+nums = [1, 1, 2, 3, 3, 3, 4, 1, 1]
+Expected Output: [[1, 1], [2], [3, 3, 3], [4], [1, 1]]
+'''
+
+PROGRAM1: 
+
+nums = [1, 1, 2, 3, 3, 3, 4, 1, 1]
+outp = []
+i= 0
+
+while i < len(nums):
+    j = i
+    while j < len(nums) - 1 and nums[j] == nums[j + 1]:
+        j += 1
+    outp.append(nums[i:j+1])
+    i = j + 1
+
+print(outp)
+
+OUTPUT:
+
+[[1, 1], [2], [3, 3, 3], [4], [1, 1]]
+
+PROGRAM 2:
+
+nums = [1, 1, 2, 3, 3, 3, 4, 1, 1]
+outp = []
+current = [nums[0]]
+
+for i in range(1, len(nums)):
+    if nums[i] == nums[i-1]:
+        current.append(nums[i])
+    else:
+        outp.append(current)
+        current = [nums[i]]
+outp.append(current)
+print(outp)
+
+OUTPUT:
+
+[[1, 1], [2], [3, 3, 3], [4], [1, 1]]
+=============================================================================================================
+
+4. 
+
+'''
+Q4. Find Second Largest Unique Number
+nums = [10, 20, 4, 45, 99, 99, 20]
+Expected Output: 45
+'''
+
+PROGRAM:
+
+nums = [10, 20, 4, 45, 99, 99, 20]
+nums = list(set(nums))
+nums.sort()
+print(f'Second largest unique number is: {nums[-2]}')
+
+OUTPUT:
+
+Second largest unique number is: 45
+
+=============================================================================================================
+
+5. 
+
+'''
+Q5. Pair Elements from Two Lists
+names = ["A", "B", "C"]
+scores = [90, 80, 85]
+Expected Output: [('A', 90), ('B', 80), ('C', 85)]
+'''
+
+PROGRAM:
+
+names = ["A", "B", "C"]
+scores = [90, 80, 85]
+
+outp = []
+for i in range(len(names)):
+    outp.append((names[i], scores[i]))
+
+print(outp)
+
+OUTPUT:
+
+[('A', 90), ('B', 80), ('C', 85)]
+
+=================================================================================================================
+
+6. 
+
+'''
+Q6. Reverse Each Word in Sentence
+s = "Python is powerful"
+Expected Output: "nohtyP si lufrewop"
+'''
+
+PROGRAM:
+
+s = "Python is powerful"
+outp = ' '.join([word[::-1] for word in s.split()])
+print(outp)
+
+OUTPUT:
+
+nohtyP si lufrewop
+
+==================================================================================================================
+
+7. 
+
+'''
+Q7. Count Frequency of Each Character (Ignore Case)
+s = "Success"
+Expected Output:{'s': 3, 'u': 1, 'c': 2, 'e': 1}
+'''
+
+PROGRAM:
+
+s = "Success"
+s = s.lower()
+
+outp = {}
+
+for char in s:
+    if char not in outp:
+        outp[char] = 1
+    else:
+        outp[char] += 1
+print(outp)
+
+OUTPUT:
+
+{'s': 3, 'u': 1, 'c': 2, 'e': 1}
+
+=============================================================================================================
+
+8. 
+
+'''
+
+Q8. Find All Substrings of Length 3
+s = "ABCDE"
+Expected Output: ['ABC', 'BCD', 'CDE']
+'''
+
+PROGRAM:
+
+s = "ABCDE"
+outp = []
+for i in range(len(s)-2):
+    outp.append(s[i:i+3])
+print(outp)
+
+OUTPUT:
+
+['ABC', 'BCD', 'CDE']
+
+==========================================================================================================
+
+9.
+
+'''
+Q9. Remove Duplicate Words in Sentence
+s = "this this is is a test test"
+Expected Output: "this is a test"
+'''
+
+PROGRAM:
+
+s = "this this is is a test test"
+lookup = set()
+outp = ''
+for i in s.split():
+    if i not in lookup:
+        outp = outp + i + ' '
+        lookup.add(i)
+print(outp)
+
+OUTPUT:
+this is a test 
+
+=============================================================================================================
+
+10.
+
+'''
+Q10. Most Frequent Word
+s = "apple banana apple mango banana apple"
+Expected Output:"apple"
+'''
+
+PROGRAM: 
+
+s = "apple banana apple mango banana apple"
+s = s.split()
+counts = {}
+for element in s:
+    if element not in counts:
+        counts[element] = 1
+    else:
+        counts[element] += 1
+print(counts)
+
+print(sorted(counts, key=lambda item: item[1], reverse=True)[0]) # the element with the highest count!
+
+OUTPUT:
+{'apple': 3, 'banana': 2, 'mango': 1}
+apple
+
+=============================================================================================================
+
+11.
+
+'''
+Q11. Check if Two Strings Are Anagrams
+s1 = "listen"
+s2 = "silent"
+Expected Output: True
+'''
+
+PROGRAM:
+
+s1 = "listen"
+s2 = "silent"
+
+count_s1 = {}
+count_s2 = {}
+for element in s1:
+    if element not in count_s1:
+        count_s1[element] = 1
+    else:
+        count_s1[element] += 1
+
+for element in s2:
+    if element not in count_s2:
+        count_s2[element] = 1
+    else:
+        count_s2[element] += 1
+
+print(count_s1)
+print(count_s2)
+print(count_s2 == count_s1)
+
+OUTPUT:
+
+{'l': 1, 'i': 1, 's': 1, 't': 1, 'e': 1, 'n': 1}
+{'s': 1, 'i': 1, 'l': 1, 'e': 1, 'n': 1, 't': 1}
+True
+
+PROGRAM 2:
+s1 = "listen"
+s2 = "silent"
+
+print(sorted(s1) == sorted(s2))
+ 
+OUTPUT:
+True
+
+============================================================================================================
+
+12.
+
+'''
+Q12. Merge Dicts and Sum Common Keys
+d1 = {'a': 10, 'b': 20, 'c': 30}
+d2 = {'a': 5, 'b': 15, 'd': 25}
+Expected Output: {'a': 15, 'b': 35, 'c': 30, 'd': 25}
+'''
+
+PROGRAM :
+
+d1 = {'a': 10, 'b': 20, 'c': 30}
+d2 = {'a': 5, 'b': 15, 'd': 25}
+
+outp = d1.copy()
+for key, value in d2.items():
+    if key not in outp:
+        outp[key] = value
+    else:
+        outp[key] += value
+print(outp)
+
+OUTPUT:
+
+{'a': 15, 'b': 35, 'c': 30, 'd': 25}
+
+PROGRAM 2:
+dict1 = {'a': 10, 'b': 20, 'c': 30}
+dict2 = {'b': 5, 'c': 15, 'd': 25}
+
+outp = {k: dict1.get(k, 0) + dict2.get(k, 0) for k in set(dict1) | set(dict2)}
+print(outp)
+
+OUTPUT:
+
+{'a': 15, 'b': 35, 'c': 30, 'd': 25}
+
+==============================================================================================================
+
+
+13.
+
+'''
+Q13. Flatten Nested Dictionary
+data = {'a': {'b': {'c': 1}}, 'd': 2}
+Expected Output: {'a.b.c': 1, 'd': 2}
+'''
+
+PROGRAM
+
+data = {'a': {'b': {'c': 1}}, 'd': 2}
+outp = {}
+for key, value in data.items():
+    if isinstance(value, dict):
+        for key2, value2 in value.items():
+            if isinstance(value2, dict):
+                for key3, value3 in value2.items():
+                    keyc = f'{key}.{key2}.{key3}'
+                    outp[keyc] = value3
+            else:
+                keyc = f'{key}.{key2}'
+                outp[keyc] = value2
+    else:
+        outp[key] = value
+print(outp)
+
+OUTPUT:
+{'a.b.c': 1, 'd': 2}
+
+===========================================================================================================
+
+'''
+Q14. Group by Value
+data = {'x': 1, 'y': 2, 'z': 1}
+Expected Output: {1: ['x', 'z'], 2: ['y']}
+'''
+
+PROGRAM:
+
+data = {'x': 1, 'y': 2, 'z': 1}
+outp = {}
+
+for key, value in data.items():
+    if value not in outp:
+        outp[value] = [key]
+    else:
+        outp[value].append(key)
+print(outp)
+
+OUTPUT:
+{1: ['x', 'z'], 2: ['y']}
+
+PROGRAM 2:
+
+data = {"a": 1, "b": 2, "c": 1, "d": 3, "e": 2}
+outp = {val: [k for k in data if data[k] == val] for val in set(data.values())}
+print(outp)
+
+OUTPUT:
+{1: ['x', 'z'], 2: ['y']}
+
+
+==============================================================================================================
+
+15. 
+'''
+Q15. Invert a Nested Dictionary
+data = {'a': {'id': 1}, 'b': {'id': 2}, 'c': {'id': 1}}
+Expected Output: {1: ['a', 'c'], 2: ['b']}
+'''
+
+PROGRAM: 
+
+data = {'a': {'id': 1}, 'b': {'id': 2}, 'c': {'id': 1}}
+outp = {}
+
+for key,value in data.items():
+    if data[key]['id'] not in outp:
+        outp[value['id']] = [key]
+    else:
+        outp[value['id']].append(key)
+print(outp)
+
+OUTPUT:
+
+{1: ['a', 'c'], 2: ['b']}
