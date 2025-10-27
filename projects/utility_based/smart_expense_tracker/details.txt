@@ -1,0 +1,59 @@
+Project Title: Smart Expense Tracker (Console App)
+
+We’re a small team managing personal and business expenses manually in a diary.
+We want a lightweight, console-based Python app to record daily expenses, view summaries by category and month, and optionally export our reports.
+
+Project Objectives
+You need to build a command-line Expense Tracker that allows a user to:
+
+1. Add, view, and analyze daily expenses
+
+2. Categorize expenses (like Food, Travel, Shopping, etc.)
+
+3. View total spent by category
+
+4. View monthly expense summary
+
+5. Export summary to a text file (like a mini report)
+
+========================================================================================================================================
+
+Functional Requirements
+1. Add Expense
+Input details:
+    1. Date (default to today if left empty)
+    2. Category (user-defined or choose existing)
+    3. Description
+    4. Amount
+2. Validate:
+    Amount must be positive
+    Date format: YYYY-MM-DD
+
+Store expense temporarily in memory (we’ll later add file saving)
+
+3. View All Expenses
+
+Display all recorded expenses in a tabular format:
+
+Date         Category     Description         Amount
+-----------------------------------------------------
+2025-10-23   Food         Lunch at café       120.50
+2025-10-23   Travel       Metro card recharge 60.00
+
+3. View Category Summary
+
+Show total spent per category:
+
+Category       Total Spent
+---------------------------
+Food           120.50
+Travel         60.00
+
+4. View Monthly Summary
+
+Group by month and show total:
+
+Month        Total Spent
+------------------------
+2025-09      3520.75
+2025-10      1890.40
