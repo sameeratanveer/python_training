@@ -1,0 +1,546 @@
+Python Assignment - 14.10.2025
+Topics: Python Introduction, Execution order of Python file, variable, i/o, operators, keywords, datatypes
+-----------------------------------------------------------------------------------------------------------
+1. Python Introduction: 
+Python is a popular programming language, which is created by Guido Von Rossum in 1991. 
+
+Features of Python:  
+
+1. Simple and easy to understand 
+
+2. Open source - code is available for community, and we can contribute to it.
+
+3. Dynamically typed - No need to define and declare variable and the type of data it holds, because all the variables are created in runtime.
+
+4. Interpreted - The bytecode representation of python program is executed by PVM (Python Virtual Machine) which is an interpreter (executes one instruction at a time and line by line)
+
+5. Follows OOPS - Everything in Python is considered as Objects and classes.
+
+6. Rich libraries - As it is open-source, the contribution and various libraries makes python scope available in multiple domains
+
+7. Portable - Runs in all OS
+
+8. Cross-platform - the compilation is done on Windows and the byte code from windows can be executed in Linux.
+
+
+2. Execution order of a python file: 
+
+Python file is stored by .py extension.  
+
+And when we run the .py file, the first thing it happens is that Python compiler checks for the syntax errors and reports it. If no errors are found then python compiler represents the .py file in Bytecode representation which is .pyc file inside the __pycache__ folder. 
+
+Once this Bytecode representation is made, then Python interpreter takes this bytecode .pyc file and executes it line by line and returns the result as output. 
+
+3. Variable:  
+
+Variable is a placeholder for a value inside a memory. We access the value stored in the memory using this variable concept just like a name for the space we are using in the memory.  
+
+
+When naming a space and value inside the memory using variables, we need to follow some set of rules: 
+
+Variable Naming Rules: 
+
+1. Variable name can contain the combination of alphabets and numbers and _ but no other special characters are allowed. 
+
+2. Variable name must start with letter or _ but not with number. 
+
+3. Variable name must be non-keyword.  
+
+4. Variable names are case-sensitive in Python that means var1 != Var1  
+
+When working within a team, naming the variables should be meaningful. Just by looking at the name of the variable we should be able to understand what king of value is getting stored in this.  
+
+And Naming conventions:  
+
+When working in a team, we decide to follow the convention for naming the variables throughout the project with the same format. 
+
+For this we have main 3 formats. 
+
+1. Pascal Case Format : ex:  FirstName
+
+2. Camel case format: ex:  firstName
+
+3. Snake case format : ex:  first_name
+
+Variable must reference to value and value must be referenced by a variable, if any violates, the reference count gets 0 and when the reference count is 0 then the garbage collector, a component of python that is responsible for memory management. This garbage collector deletes the value and variable and free ups the space.  
+
+Hence this is the advantage of Python’s garbage collector. We dont need to keep track of used and unused variables, python’s garbage collector takes care of it, making the memory management, a tedious task easy for us. 
+
+Programs: 
+# Variables: 
+myName = 'Sameera Tanveer'
+MyAge = 21
+friend1 = 'Navya'
+my_marks = 20.5
+friend1 = 'Irfana' # Here Irfana is stored and the friend1 variable points to Irfana now, and in the next cycle 'Navya' is swept by Garbage collector.
+
+4. I/O: 
+
+I/O refers to Python programs input and output components.  
+
+Output to the user can be done through simple print(). It is a predefined function  that writes the value inside the parantheses to the console.  
+
+ 
+
+Input from the user can be taken using  the simple input(). This function takes the value from the user console and stores into the variable or does some operations. Whenever we pass the value using the input() it always takes as a string type. Even if we input a number, python program due to input() considers it as a string.  
+
+Hence, we need to cast it to the desired datatype before using it in operations and working around with these. 
+
+Programs:
+1. Program1: input Name and print.
+your_name = input("Please Enter your name: ")
+print("Hello", your_name)
+Output: 
+Please Enter your name: sameera
+Hello sameera
+
+2. Program2: input age and add 1 and print the result.
+yourAge = input("Enter your age: ")
+print("Next year your age will be ", yourAge + 1)
+Output: 
+Enter your age: 21
+Traceback (most recent call last):
+  File "c:\Users\SameeraTanveer\OneDrive - BILVANTIS TECHNOLOGIES PRIVATE LIMITED\Desktop\python\fundamentals_14_10\Python_14_10_2025.py", line 15, in <module>
+    print("Next year your age will be ", yourAge + 1)
+                                         ~~~~~~~~^~~
+TypeError: can only concatenate str (not "int") to str
+
+Hence, it proves that the input() result datatype is Str. So, when we are expecting a datatype other than string we need to cast them to desired datatype.
+Ex:
+yourAge = int(input("Enter your age: "))
+print("Next year your age will be ", yourAge + 1)
+Output:
+Enter your age: 21
+Next year your age will be  22
+
+3. Program3: Taking Multiple inputs at once separated by space:
+name, age = input("Enter your name and age (separated by space): ").split()
+print("Name ", name, "and age ", age)
+
+num1, num2, num3 = map(int, input("Enter three numbers (separated by comma): ").split(','))
+print("num1 = ", num1, "\n", "num2 =", num2, "\n", "num3 = ", num3)
+Output: 
+Enter your name and age (separated by space): sameera 21
+Name  sameera and age  21
+Enter three numbers (separated by comma): 10,20,30
+num1 =  10 
+ num2 = 20
+ num3 =  30
+
+5. Keywords:
+Keywords are special words that are reserved by python to do special tasks. Hence, these words have their own meaning that python knows.
+Hence we cant use these words as the variable name. These are reserved for the task they are made for. Python is a case-sensitive language hence these keywords must be used the way they are mentioned, lowercase or uppercase, cant use viceversa.
+In python, the keywords gets added in extended versions and right now there are 35 keywords in Python.
+To see all the keywords available in current version of python.. 
+
+Program:
+import keyword
+print(len(keyword.kwlist))
+print(keyword.kwlist)
+
+Output: 
+35
+['False', 'None', 'True', 'and', 'as', 
+'assert', 'async', 'await', 'break', 'class', 
+'continue', 'def', 'del', 'elif', 'else', 
+'except', 'finally', 'for', 'from', 
+'global', 'if', 'import', 'in', 
+'is', 'lambda', 'nonlocal', 'not', 'or', 
+'pass', 'raise', 'return', 'try', 'while', 
+'with', 'yield']
+
+Program2: Functions in keyword library to check whether the given string is keyword or not.
+import keyword
+print(keyword.iskeyword('hello'))
+print(keyword.iskeyword('if'))
+Output: 
+False
+True
+
+6. Operators:  
+
+Operators are the special symbols that are used by the python program to do some operations on the variables and values. 
+
+There are different forms of operators:  
+
+1. Arithmetic Operators 
+Program: 
+num1 = 20
+num2 = 13
+print(f'Addition: {num1} + {num2} = {num1 + num2}')
+print(f'Subtraction: {num1} - {num2} = {num1 - num2}')
+print(f'Multiplication: {num1} * {num2} = {num1 * num2}')
+print(f'Division: {num1} / {num2} = {num1 / num2}')
+print(f'Modulo: {num1} % {num2} = {num1 % num2}')
+print(f'Floor Division: {num1} // {num2} = {num1 // num2}')
+print(f'Exponential: {num1} ** {num2} = {num1 ** num2}')
+
+Output:
+Addition: 20 + 13 = 33
+Subtraction: 20 - 13 = 7
+Multiplication: 20 * 13 = 260
+Division: 20 / 13 = 1.5384615384615385
+Modulo: 20 % 13 = 7
+Floor Division: 20 // 13 = 1
+Exponential: 20 ** 13 = 81920000000000000
+
+2. Assignment Operators 
+Program: 
+
+print(f"Assigning a value using = like name = 'sameera' or age = 21")
+print(f"Compound Assignment operators : +=, -=, *=, /=, %=, //= **=")
+num1 += 1
+print(f'Addition Assignment: {num1}')
+num1 -= 1
+print(f'Subtraction Assignment: {num1}')
+num1 *= 2
+print(f'Multiplication Assignment: {num1}')
+num1 /= 5
+print(f'Division Assignment: {num1} ')
+num1 %= 4
+print(f'Modulo Assignment: {num1}')
+num1 //= 4
+print(f'Floor Division Assignment: {num1}')
+num1 **= 2
+print(f'Exponential Assignment: {num1}')
+
+Output:
+Assigning a value using = like name = 'sameera' or age = 21
+Compound Assignment operators : +=, -=, *=, /=, %=, //= **=
+Addition Assignment: 21
+Subtraction Assignment: 20
+Multiplication Assignment: 40
+Division Assignment: 8.0
+Modulo Assignment: 0.0
+Floor Division Assignment: 0.0
+Exponential Assignment: 0.0
+
+
+3. Comparision Operators - < > <= >= != 
+Program: 
+a = 10
+b = 20
+
+print(f'{a} == {b} : {a == b}')
+print(f'{a} != {b} : {a != b}')
+print(f'{a} > {b}  : {a > b}')
+print(f'{a} < {b}  : {a < b}')
+print(f'{a} >= {b} : {a >= b}')
+print(f'{a} <= {b} : {a <= b}')
+
+Output:
+10 == 20 : False
+10 != 20 : True
+10 > 20  : False
+10 < 20  : True
+10 >= 20 : False
+10 <= 20 : True
+
+
+
+4. Logical Operators - and or not
+Program:
+x = True
+y = False
+
+print(f'{x} and {y} : {x and y}')
+print(f'{x} or {y}  : {x or y}')
+print(f'not {x}     : {not x}')
+
+Output:
+True and False : False
+True or False  : True
+not True       : False
+
+
+5. Identity Operators - is is not
+a = [1, 2, 3]
+b = a
+c = [1, 2, 3]
+
+print(f'a is b     : {a is b}')      # same object
+print(f'a is c     : {a is c}')      # different object but same value
+print(f'a is not c : {a is not c}')
+
+
+6. Membership Operators - in
+text = "python"
+numbers = [1, 2, 3, 4, 5]
+
+print(f"'p' in '{text}' : {'p' in text}")
+print(f"'z' not in '{text}' : {'z' not in text}")
+print(f"3 in {numbers} : {3 in numbers}")
+print(f"10 not in {numbers} : {10 not in numbers}")
+
+
+7. Bitwise Operators - & | ^ ~ << >>
+a = 10   # 1010
+b = 4    # 0100
+
+print(f'{a} & {b} : {a & b}')   # AND
+print(f'{a} | {b} : {a | b}')   # OR
+print(f'{a} ^ {b} : {a ^ b}')   # XOR
+print(f'~{a}     : {~a}')       # NOT (2's complement)
+print(f'{a} << 2 : {a << 2}')   # Left Shift by 2
+print(f'{a} >> 2 : {a >> 2}')   # Right Shift by 2
+
+Output:
+10 & 4 : 0
+10 | 4 : 14
+10 ^ 4 : 14
+~10     : -11
+10 << 2 : 40
+10 >> 2 : 2
+
+7. Datatype:
+7.1: Numeric Datatype: main (integer, float, complex)
+
+Program:
+# Integer
+num1 = 10
+print(f'Value: {num1}, Type: {type(num1)}')
+
+# Float
+num2 = 10.75
+print(f'Value: {num2}, Type: {type(num2)}')
+
+# Complex
+num3 = 5 + 3j
+print(f'Value: {num3}, Type: {type(num3)}')
+
+# Complex using k, l (check)
+# Python only allows 'j' or 'J' as imaginary unit, not k or l
+# num4 = 5 + 3k  # This will give SyntaxError
+
+# Exponential number
+num4 = 2e07
+print(f'Value: {num4}, Type: {type(num4)}')
+
+# Changing value and checking type
+x = 100
+print(f'Initially: {x} => {type(x)}')
+x = 100.56
+print(f'After changing: {x} => {type(x)}')
+x = 5 + 4j
+print(f'After changing again: {x} => {type(x)}')
+
+Output:
+Value: 10, Type: <class 'int'>
+Value: 10.75, Type: <class 'float'>
+Value: (5+3j), Type: <class 'complex'>
+Value: 20000000.0, Type: <class 'float'>
+Initially: 100 => <class 'int'>
+After changing: 100.56 => <class 'float'>
+After changing again: (5+4j) => <class 'complex'>
+
+7.2: String Datatype:
+s1 = 'Hello'
+s2 = "Python"
+s3 = """This is
+a multiline
+string"""
+print(f's1: {s1}, Type: {type(s1)}')
+print(f's2: {s2}, Type: {type(s2)}')
+print(f's3: {s3}, Type: {type(s3)}')
+
+# Indexing and slicing
+print(f'First character of s1: {s1[0]}')
+print(f'Last 3 characters of s2: {s2[-3:]}')
+
+Output:
+s1: Hello, Type: <class 'str'>
+s2: Python, Type: <class 'str'>
+s3: This is
+a multiline
+string, Type: <class 'str'>
+First character of s1: H
+Last 3 characters of s2: hon
+
+3. List:
+# List
+fruits = ['apple', 'banana', 'cherry']
+print(f'fruits: {fruits}, Type: {type(fruits)}')
+
+# Accessing elements
+print(f'First element: {fruits[0]}')
+
+# Changing value
+fruits[1] = 'blueberry'
+print(f'After modifying: {fruits}')
+
+Output: 
+
+fruits: ['apple', 'banana', 'cherry'], Type: <class 'list'>
+First element: apple
+After modifying: ['apple', 'blueberry', 'cherry']
+
+List methods:
+1. append() : Adds an element to the end of the list.
+fruits = ['apple', 'banana']
+fruits.append('cherry')
+print(f'After append 1: {fruits}')
+
+fruits.append('mango')
+print(f'After append 2: {fruits}')
+
+Output:
+After append 1: ['apple', 'banana', 'cherry']
+After append 2: ['apple', 'banana', 'cherry', 'mango']
+
+2. extend() : Extends the list by adding elements from another iterable
+nums = [1, 2]
+nums.extend([3, 4])
+print(f'After extend with list: {nums}')
+
+nums.extend((5, 6))
+print(f'After extend with tuple: {nums}')
+
+Output:
+After extend with list: [1, 2, 3, 4]
+After extend with tuple: [1, 2, 3, 4, 5, 6]
+
+3. insert() : Inserts an element at a specified position.
+letters = ['A', 'B', 'D']
+letters.insert(2, 'C')
+print(f'After insert 1: {letters}')
+
+letters.insert(0, 'Z')
+print(f'After insert 2: {letters}')
+
+Output:
+After insert 1: ['A', 'B', 'C', 'D']
+After insert 2: ['Z', 'A', 'B', 'C', 'D']
+
+4. remove() : Removes the first occurrence of a value.
+animals = ['dog', 'cat', 'dog', 'cow']
+animals.remove('dog')
+print(f'After remove dog: {animals}')
+
+animals.remove('cow')
+print(f'After remove cow: {animals}')
+
+Output:
+After remove dog: ['cat', 'dog', 'cow']
+After remove cow: ['cat', 'dog']
+
+5. pop() : Removes and returns element at the given index. If no index, removes last element.
+colors = ['red', 'green', 'blue']
+removed1 = colors.pop()
+print(f'Popped value: {removed1}, List after pop: {colors}')
+
+removed2 = colors.pop(0)
+print(f'Popped index 0: {removed2}, List after pop: {colors}')
+
+Output:
+Popped value: blue, List after pop: ['red', 'green']
+Popped index 0: red, List after pop: ['green']
+
+6. clear() : Removes all elements from the list.
+nums = [1, 2, 3]
+nums.clear()
+print(f'After clear 1: {nums}')
+
+letters = ['a', 'b', 'c']
+letters.clear()
+print(f'After clear 2: {letters}')
+
+Output:
+After clear 1: []
+After clear 2: []
+
+7. index() : Returns the index of the first occurrence of a value.
+nums = [10, 20, 30, 20]
+print(f'Index of 20: {nums.index(20)}')
+
+chars = ['x', 'y', 'z']
+print(f'Index of "z": {chars.index("z")}')
+
+Output:
+Index of 20: 1
+Index of "z": 2
+
+8. count() : Returns the number of times a value appears.
+nums = [1, 2, 2, 3, 2]
+print(f'Count of 2: {nums.count(2)}')
+
+letters = ['a', 'b', 'a', 'c', 'a']
+print(f'Count of a: {letters.count("a")}')
+
+Output:
+Count of 2: 3
+Count of a: 3
+
+9. sort() : Sorts the list in ascending order (default).
+nums = [5, 2, 8, 1]
+nums.sort()
+print(f'Sorted ascending: {nums}')
+
+nums.sort(reverse=True)
+print(f'Sorted descending: {nums}')
+
+Output:
+Sorted ascending: [1, 2, 5, 8]
+Sorted descending: [8, 5, 2, 1]
+
+10. reverse() : Reverses the elements of the list in place.
+nums = [1, 2, 3]
+nums.reverse()
+print(f'Reversed 1: {nums}')
+
+letters = ['a', 'b', 'c']
+letters.reverse()
+print(f'Reversed 2: {letters}')
+
+Output:
+Reversed 1: [3, 2, 1]
+Reversed 2: ['c', 'b', 'a']
+
+
+4. Tuple: 
+# Tuple
+colors = ('red', 'green', 'blue')
+print(f'colors: {colors}, Type: {type(colors)}')
+
+# Accessing elements
+print(f'Second element: {colors[1]}')
+
+# Trying to modify tuple (it will cause error)
+# colors[1] = 'yellow'  #  TypeError
+
+tuple methods:
+ 
+
+tup = (10, 20, 30, 10, 40)
+
+print(f'count(10): {tup.count(10)}')
+print(f'index(30): {tup.index(30)}')
+
+Output:
+count(10): 2
+index(30): 2
+
+5. range():
+r = range(5)
+print(f'range(5): {list(r)}')
+
+r2 = range(2, 10, 2)  # start, stop, step
+print(f'range(2, 10, 2): {list(r2)}')
+
+Output:
+range(5): [0, 1, 2, 3, 4]
+range(2, 10, 2): [2, 4, 6, 8]
+
+-> Difference between tuple and list?
+1. Lists are mutable, it means the length and the values inside the list can be changed, whereas tuple cant be done.
+2. Lists have more methods than tuple
+3. List is slow in performance because as list is dynamic in nature they are stored in dynamic memory and hence accessing and performance is complex and slow. Whereas Tuples are fixed in size and they are easy to access..
+4. List takes more space than tuples
+5. List is not hashable whereas tuples are
+
+-> Why tuple is faster than list?
+Tuples are stored in a fixed memory structure format, whereas lists are dynamic array that expands or shrinks. Hence, tuples dont require extra memory management hassle, hence they are fast!
+
+
+
+
+
