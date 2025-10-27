@@ -1,0 +1,271 @@
+'''
+1. Write a function `register_user(name, age, city)` that accepts both positional and keyword arguments.
+Call the function in 3 different ways:
+  1. All positional
+  2. Mix of positional and keyword
+  3. All keyword
+  Explain what happens if you pass an extra or missing argument.
+'''
+
+PROGRAM:
+
+def register_user(name, age, city):
+    print(f'Name: {name}\nAge: {age}\nCity: {city}')
+# calling a function:
+register_user('Sameera', 21, 'Hyderabad')
+register_user(21, 'sameera', 'Hyderabad')
+register_user(name='sameera', city='Hyderabad', age=21)
+# register_user(city='Hyderabad', 'sameera', 21) # Error because SyntaxError: positional argument follows keyword argument that means once keyword argument is in the sequence, then we cant send positional argument at all!
+# register_user(city='Hyderabad', 21, 'Sameera') # same error as above
+
+OUTPUT:
+Name: Sameera
+Age: 21
+City: Hyderabad
+Name: 21
+Age: sameera
+City: Hyderabad
+Name: sameera
+Age: 21
+City: Hyderabad
+
+===========================================================================================================
+
+'''
+2. Define a function:
+def calculate_area(length, /, width, * , unit="sq.m"):
+Explain what `/` and * mean in the signature.
+Write valid and invalid function calls.
+What error do you get if you try `calculate_area(length=5, width=3)`?
+'''
+
+PROGRAM:
+
+def calculate_area(length, /, width, *, unit='sq.m'):
+    print(f'Area = {length * width} {unit}')
+# / means before this the arguments are positional only, whereas * after this the arguments are keywords only.
+# That means length should be only positional argument, and unit parameter should be keyword only. And width is our wish,
+calculate_area(10, 20, unit='m')
+# calculate_area(length=10, 20) # invalid because positional after keyword.
+# calculate_area(10, width=20, 'sq.m2') # invalid because unit must be keyword argument
+# calculate_area(10, 20, 'sq.m3') # invalid because unit must be keyword. [error: calculate_area() takes 2 positional arguments but 3 were given]
+# calculate_area(length=10, width=20) # invalid because length must be positional. [error: calculate_area() got some positional-only arguments passed as keyword arguments: 'length']
+calculate_area(10, width=20, unit='sq.m2')
+
+OUTPUT:
+Area = 200 m
+Area = 200 sq.m2
+
+=================================================================================================================
+
+'''
+3. Write a function:
+def append_item(item, item_list=[]):
+    item_list.append(item)
+    return item_list
+
+Call it multiple times and observe the output.
+Explain why the list keeps growing.
+Fix it by making the default parameter immutable.
+'''
+
+PROGRAM:
+
+def append_item(item, item_list=[]):
+    item_list.append(item)
+    return item_list
+print(append_item(1))
+print(append_item(2))
+print(append_item([1,3]))
+print(append_item(2, [1,3]))
+
+OUTPUT:
+[1]
+[1, 2]
+[1, 2, [1, 3]]
+[1, 3, 2]
+
+EXPLANATION: 
+Default value which is item_list = [] is created only once when the function is defined. Hence whenever item_list s not send as an argument in functional call it takes the default item_list which was created at the time function definition it is mutable and this is the reason why list keeps growing. 
+
+In the last function call the passed argument is overwritten the default argument. Hence new list is used..
+
+To fix this we have to change its mutability to immutable object, which can be achieved using None set to the list.
+
+FIXED PROGRAM:
+
+def append_item(item, item_list=None):
+    if item_list is None:
+        item_list = []
+    item_list.append(item)
+    return item_list
+print(append_item(1))
+print(append_item(2))
+print(append_item([1,3]))
+print(append_item(2, [1,3]))
+
+# if item_list is not forwarded then a new list is created at every call.. 
+OUTPUT:
+[1]
+[2]
+[[1, 3]]
+[1, 3, 2]
+
+==================================================================================================================
+
+'''
+4.Create a function `student_profile(*courses, **details)` that:
+Prints all courses from `*args`.
+Prints all key-value pairs from `**kwargs`.
+  Write a function call mixing both — e.g: student_profile("Math", "Science", name="John", grade="A")
+'''
+
+PROGRAM:
+
+def student_profile(*courses, **details):
+    print('Taken courses: ', end = '')
+    for course in courses:
+        print(f'{course}', end=',')
+    print()
+    print('Details: ')
+    for key, value in details.items():
+        print(f'{key}:{value}')
+
+student_profile("Math", "Science", name="John", grade="A")
+student_profile("Physics", 'Maths', 'English', name='Sam', grade='A', age=21)
+
+OUTPUT:
+Taken courses: Math,Science,
+Details: 
+name:John
+grade:A
+Taken courses: Physics,Maths,English,
+Details: 
+name:Sam
+grade:A
+age:21
+
+================================================================================================================
+
+'''
+5. Write a function `compare_numbers(a, b)` that:
+Returns `"Equal"` if both are same
+Returns the larger number if not
+Demonstrate that a function stops executing after the first `return`.
+'''
+
+PROGRAM:
+
+def compare_numbers(a,b):
+    if a == b:
+        return 'Equal'
+    if a > b:
+        return a
+    else:
+        return b
+    print('Never gets printed!')
+print(compare_numbers(10,10)) # stops the execution after the return stmt 'Equal' doesnt go after that at all..
+print(compare_numbers(10,5)) # stops execution after the return stmt return a doesnt go to else also.
+print(compare_numbers(5, 10)) # goes till the last return b but doesnt print the next stmt, if wont go next.
+
+OUTPUT:
+Equal
+10
+10
+
+===============================================================================================================
+
+'''
+6. Write a function `analyze_numbers(lst)` that returns:
+Minimum, maximum, and average of a list.Then show how to unpack it like:
+    min_val, max_val, avg = analyze_numbers([1,2,3,4])
+What happens if you unpack incorrectly?
+'''
+
+PROGRAM:
+
+def analyze_numbers(lst):
+    return max(lst), min(lst), sum(lst)/len(lst)
+min_val, max_val, avg = analyze_numbers([1,2,3,4])
+print(f'Min value: {min_val}\nMax value: {max_val}\nAvg : {avg}')
+
+OUTPUT:
+
+Min value: 4
+Max value: 1
+Avg : 2.5
+
+
+==============================================================================================================
+
+'''
+7. Return Types and Implicit `None`
+Write a function `display_message(msg)` that prints the message but does not use a return statement.
+Show what happens when you assign its result to a variable.
+Explain why the variable becomes `None`.
+'''
+PROGRAM:
+
+def display_message(msg):
+    print(msg)
+print(display_message('Hi'))
+msged = display_message('Hello')
+print(msged)
+
+OUTPUT:
+Hi
+None
+Hello
+None
+
+The None for the first time is printed by print stmt because when we does not write return stmt that means its not returning anything. Hence nothing in Python is shown as None. Hence nothing is returned means None is returned. That is the reason print printed None and also msged variable holds None value. 
+
+================================================================================================================
+
+'''
+8. Nested Functions and Scope (`global`, `nonlocal`)
+Write a function:
+count = 0
+def outer():
+    total = 10
+    def inner():
+        nonlocal total
+        global count
+        total += 5
+        count += 1
+        return total, count
+    return inner()
+Predict the output.
+Explain what happens if you remove `global` or `nonlocal`.
+'''
+
+PROGRAM: 
+
+count = 0
+def outer():
+    total = 10
+    def inner():
+        nonlocal total
+        global count
+        total += 5
+        count += 1
+        return total, count
+    return inner()
+print(outer())
+
+OUTPUT:
+(15, 1)
+
+EXPLANATION:
+count = 0 is a global variable that means it is accessed everywhere throughout the program only if there is no local variable with the same name in the scope of the block.
+total = 10 is global for inner() but local for other part of the program. Same here we can use total in inner if there is no other variable with the same name. 
+nonlocal total means we are accessible nonlocal variable which then again refers to the above block variables in this case we have outer() just above inner() an indeed it has total variable. Hence we can now access that as a local variable, edit it like that and use it just like local variable.
+global count means we are accessing the global variable count.
+so, 
+1st time: total = 10
+then inner function, we updated total value with the help of nonlocal keyword : total = 15
+count global was 0 then we updated +1 then it is count = 1
+And we are returning to the outer function this total and count, (15,1) 
+And outer function is returning that only to our function call and we get the output as (15,1)
+
+If we remove that, we will get error because we are incrementing the value whose initial value is unknown.. then all of them are local and their initial value is unknown so we cant increment that..
