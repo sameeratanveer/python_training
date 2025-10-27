@@ -1,0 +1,445 @@
+'''
+1. Create a class Car with attributes brand, model, and price.
+Create two objects and print their details.
+'''
+
+PROGRAM:
+
+class Car:
+    def __init__(self, brand, model, price):
+        self.brand = brand
+        self.model = model
+        self.price = price
+
+# car object 1:
+car1 = Car("Tata", 'Punch', 555000)
+car2 = Car("Hyundai", "Creta", 1000000)
+
+# print the details:
+print(car1.brand, car1.model, car1.price)
+print(car2.brand, car2.model, car2.price)
+
+OUTPUT:
+Tata Punch 555000
+Hyundai Creta 1000000
+==============================================================================================================
+
+'''
+    2. Add a method display_info() that prints details nicely.
+    Call it using both Car.display_info(car1) and car1.display_info() and observe what happens.
+'''
+
+PROGRAM:
+class Car:
+    def __init__(self, brand, model, price):
+        self.brand = brand
+        self.model = model
+        self.price = price
+
+    def display_info(self):
+        print(f"Brand = {self.brand}\nModel = {self.model}\nPrice =  {self.price}")
+
+
+car1 = Car("Tata", 'Punch', 555000)
+car2 = Car("Hyundai", "Creta", 1000000)
+
+Car.display_info(car1)
+car1.display_info()
+
+OUTPUT:
+Brand = Tata
+Model = Punch
+Price =  555000
+Brand = Tata
+Model = Punch
+Price =  555000
+
+==============================================================================================================
+
+ '''
+    3. Add a class variable vehicle_type = "Car".
+    Access it through both the class and object.
+    Try modifying it via the object and class — what changes where?
+ '''
+
+PROGRAM:
+
+class Car:
+    vehicle_type = 'Car'
+    def __init__(self, brand, model, price):
+        self.brand = brand
+        self.model = model
+        self.price = price
+
+    def display_info(self):
+        print(f"Brand = {self.brand}\nModel = {self.model}\nPrice =  {self.price}")
+
+
+# car object 1:
+car1 = Car("Tata", 'Punch', 555000)
+car2 = Car("Hyundai", "Creta", 1000000)
+
+
+# 3. Answer:
+print(Car.vehicle_type)
+print(car1.vehicle_type)
+car1.vehicle_type = "Car1"
+print(Car.vehicle_type)
+print(car1.vehicle_type)
+Car.vehicle_type = 'Car'
+print(car1.vehicle_type)
+print(Car.vehicle_type)
+
+OUTPUT:
+Car
+Car
+Car
+Car1
+Car1
+Car
+
+Explanation:
+Class variable is shared among all instances of class.
+If an object or instance tries to modify and access the class variable from instance form then instead of class variable modification, it creates the same name instance variable and assign the changes to it. 
+
+================================================================================================================
+
+'''
+    4. Add a class method that counts how many Car objects were created.
+'''
+
+PROGRAM:
+class Car:
+    vehicle_type = 'Car'
+
+    '''
+    4. Add a class method that counts how many Car objects were created.
+    '''
+    cars_count = 0
+
+    @classmethod
+    def count_cars(cls):
+        cls.cars_count += 1
+
+    @classmethod
+    def get_cars_count(cls):
+        return cls.cars_count
+
+    def __init__(self, brand, model, price):
+        self.brand = brand
+        self.model = model
+        self.price = price
+        self.__class__.count_cars()
+
+
+    def display_info(self):
+        print(f"Brand = {self.brand}\nModel = {self.model}\nPrice =  {self.price}")
+
+
+# car object 1:
+car1 = Car("Tata", 'Punch', 555000)
+car2 = Car("Hyundai", "Creta", 1000000)
+
+# Get car count.
+print(Car.get_cars_count())
+
+OUTPUT:
+2
+
+================================================================================================================
+
+ '''
+    5. Add a static method is_luxury(price) → returns True if price > 50,00,000.
+ '''
+
+PROGRAM:
+
+'''
+1. Create a class Car with attributes brand, model, and price.
+Create two objects and print their details.
+'''
+
+
+class Car:
+    vehicle_type = 'Car'
+    cars_count = 0
+
+    @classmethod
+    def count_cars(cls):
+        cls.cars_count += 1
+
+    @classmethod
+    def get_cars_count(cls):
+        return cls.cars_count
+
+    def __init__(self, brand, model, price):
+        self.brand = brand
+        self.model = model
+        self.price = price
+        self.__class__.count_cars()
+
+    def display_info(self):
+        print(f"Brand = {self.brand}\nModel = {self.model}\nPrice =  {self.price}")
+
+    @staticmethod
+    def is_luxury(price):
+        return True if price > 5000000 else False
+
+# car object 1:
+car1 = Car("Tata", 'Punch', 555000)
+car2 = Car("Hyundai", "Creta", 1000000)
+
+# static method calling
+print(car1.is_luxury(20000))
+
+OUTPUT:
+False
+
+===============================================================================================================
+'''
+6. Create a class Employee where __init__ takes name, role, salary.
+Add a method describe() that prints all details.
+
+7. Create 3 employees and store them in a list.
+Loop through and print their names and roles.
+
+8. Add a default parameter in __init__ like department='General'.
+Create an employee without specifying department — see the output.
+
+'''
+
+class Employee:
+    def __init__(self, name, role, salary, department='General'):
+        self.name = name
+        self.role = role
+        self.salary = salary
+        self.department = department
+
+    def describe(self):
+        print(f"Details of the employee:{self}")
+        print(f"Name = {self.name}, Role = {self.role}, Salary = {self.salary}, Department = {self.department}")
+
+employees = []
+emp1 = Employee('Sam', 'SE1', 200000)
+emp2 = Employee('era', 'SE2', 500000)
+emp3 = Employee('Sameera', 'DS1', 700000, 'IT')
+employees.extend([emp1, emp2, emp3])
+
+for employee in employees:
+    employee.describe()
+    # or just for names: employee.name
+
+OUTPUT:
+Details of the employee:<__main__.Employee object at 0x000001DD888146E0>
+Name = Sam, Role = SE1, Salary = 200000, Department = General
+Details of the employee:<__main__.Employee object at 0x000001DD88808410>
+Name = era, Role = SE2, Salary = 500000, Department = General
+Details of the employee:<__main__.Employee object at 0x000001DD88808550>
+Name = Sameera, Role = DS1, Salary = 700000, Department = IT
+
+================================================================================================================
+
+'''
+1. Create a class Student:
+    Class variable: school_name = "ABC High School"
+    Instance variables: name, marks
+    Local variable: inside a method calculate_grade()
+Print all 3 types and note differences.
+'''
+
+class Student:
+    school_name = 'ABC High School'
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+    def calculate_grade(self, marks):
+        self.grade = None
+        if self.marks > 75:
+            self.grade = 'Distinction'
+        elif self.marks > 50:
+            self.grade = 'Second class'
+        else:
+            self.grade = 'Fail'
+        print(self.grade)
+student1 = Student('Mahi', 66)
+print(student1.school_name)
+print(student1.name)
+print(student1.marks)
+print(student1.calculate_grade(student1.marks))
+print(student1.grade)
+
+OUTPUT:
+ABC High School
+Mahi
+66
+Second class
+None
+Second class
+
+EXPLANATION:
+------------
+To access the local variable of the method. Use self keyword to make it accessible otherwise, we wont be able to access it from outside the function or with reference to the object.
+
+==================================================================================================================
+
+----------- ENCAPSULATION ---------------
+'''
+1. Create a class BankAccount:
+    Private variable: __balance
+    Methods: deposit(amount), withdraw(amount), get_balance()
+Try to access __balance directly — what happens?
+'''
+
+class BankAccount:
+    def __init__(self, name, balance=0, password = '1234'):
+        self.name = name
+        self.__balance = balance # private variable.
+        self._password = password
+
+    def get_balance(self):
+        return self.__balance
+
+    def deposit(self, money):
+        self.__balance += money
+
+    def withdraw(self, amount):
+        balance = self.get_balance()
+        if balance - amount < 0:
+            print("Insufficient fund!")
+        else:
+            self.__balance -= amount
+            print(f"{amount} withdrawn!")
+
+account1 = BankAccount('Sam')
+print(account1.get_balance())
+print(account1.deposit(2000))
+print(account1.get_balance())
+print(account1.withdraw(30000))
+account1.__BankAccount__balance = 100
+account1._password = 'ABC'
+print(account1._password)
+
+===============================================================================================================
+
+--------- INHERITANCE----------------
+'''
+15. Create a base class Person with name, age.
+Derive class Employee with additional emp_id, salary.
+'''
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def show_details(self):
+        print(f"Person Name: {self.name}, Age:{self.age}")
+
+class Employee(Person):
+    def __init__(self, name, age, emp_id, salary):
+        super().__init__(name, age)
+        self.emp_id = emp_id
+        self.__salary = salary
+
+    def show_details(self):
+        print(f"Employee name: {self.name}, Age: {self.age}\nEmployee id:{self.emp_id}, Employee salary:{self.__salary}")
+
+# person1 = Person("Sam", 21)
+# person1.show_details()
+# emp1 = Employee('sam', 21, 322, 220000)
+# emp1.show_details()
+
+class A:
+    def func(self):
+        print("I am from A class")
+class B:
+    def func(self):
+        print("I am from B class")
+class C(B, A):
+    def check(self):
+        print("I am C")
+c = C()
+c.func()
+
+Multiple Inheritance depends on priority!
+
+=========================================================================================================
+Hierarchial :
+class Vehicle:
+    def move(self):
+        print("Vehicles help in transportation")
+
+class Car(Vehicle):
+    def car_info(self):
+        print("Car runs on 4 wheels")
+
+class Bike(Vehicle):
+    def bike_info(self):
+        print("Bike runs on 2 wheels")
+
+c = Car()
+b = Bike()
+c.move(); c.car_info()
+b.move(); b.bike_info()
+
+OUTPTU:
+Vehicles help in transportation
+Car runs on 4 wheels
+Vehicles help in transportation
+Bike runs on 2 wheels
+=========================================================================================================
+MULTI-LEVEL:
+class Grandparent:
+    def legacy(self):
+        print("Legacy from Grandparent")
+
+class Parent(Grandparent):
+    def assets(self):
+        print("Assets from Parent")
+
+class Child(Parent):
+    def future(self):
+        print("Future belongs to Child")
+
+c = Child()
+c.legacy()
+c.assets()
+c.future()
+
+output:
+Vehicles help in transportation
+Car runs on 4 wheels
+Vehicles help in transportation
+Bike runs on 2 wheels
+Legacy from Grandparent
+Assets from Parent
+Future belongs to Child
+
+=========================================================================================================
+Hybrid inheritance:
+class A:
+    def feature_a(self):
+        print("Feature A")
+
+class B(A):
+    def feature_b(self):
+        print("Feature B")
+
+class C(A):
+    def feature_c(self):
+        print("Feature C")
+
+class D(B, C):  # hybrid inheritance
+    def feature_d(self):
+        print("Feature D")
+
+d = D()
+d.feature_a()
+d.feature_b()
+d.feature_c()
+d.feature_d()
+
+Feature A
+Feature B
+Feature C
+Feature D

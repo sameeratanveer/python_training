@@ -1,0 +1,219 @@
+'''1. Create a class Account that stores a customer’s name and balance.
+
+Make the balance a private variable.
+
+Provide methods to deposit and withdraw money (withdraw should check for insufficient funds).
+Then create a subclass SavingsAccount that inherits from Account and adds an attribute for interest_rate, and a method add_interest() to increase the balance based on the interest rate.
+'''
+
+PROGRAM:
+
+class Account:
+    def __init__(self, name, balance=0):
+        self.name = name
+        self.__balance = balance # balance is a private variable
+
+    def get_balance(self):
+        return self.__balance
+
+    def deposit(self, money):
+        if money < 0:
+            print("Cannot deposit negative money!")
+            return
+        self.__balance += money # desposit moneyy
+        print(f"{money} Money deposited")
+
+    def withdraw(self, money):
+        if self.__balance - money < 0:
+            print("Insufficient balance!")
+        else:
+            self.__balance -= money
+            print(f"{money} withdrawn from account")
+
+
+class SavingsAccount(Account):
+    def __init__(self, name, balance=0, interest_rate = 0):
+        super().__init__(name, balance)
+        self.interest_rate = interest_rate / 100 # interest rate is in percentages..
+
+    def add_interest(self):
+        # interest gets deposited..
+        interest_balance =  (self.get_balance() * self.interest_rate)
+        self.deposit(interest_balance)
+        print(f"{interest_balance} interest is added successfully!")
+
+acc1 = Account('Sam', 1000)
+print(f"Balance for the Account Holder {acc1.name} is {acc1.get_balance()} ")
+acc1.deposit(200)
+print(f"Balance for the Account Holder {acc1.name} is {acc1.get_balance()} ")
+acc1.withdraw(10)
+print(f"Balance for the Account Holder {acc1.name} is {acc1.get_balance()} ")
+acc1.withdraw(4000)
+acc1.deposit(-10)
+
+savingacc1 = SavingsAccount('Sameera', 10000, 5)
+print(f"Balance for the Account Holder {savingacc1.name} is {savingacc1.get_balance()} ")
+savingacc1.deposit(20000)
+print(f"Balance for the Account Holder {savingacc1.name} is {savingacc1.get_balance()} ")
+savingacc1.withdraw(1000)
+print(f"Balance for the Account Holder {savingacc1.name} is {savingacc1.get_balance()} ")
+savingacc1.withdraw(4000)
+print(f"Balance for the Account Holder {savingacc1.name} is {savingacc1.get_balance()} ")
+savingacc1.deposit(-10)
+savingacc1.add_interest()
+print(f"Balance for the Account Holder {savingacc1.name} is {savingacc1.get_balance()} ")
+
+OUTPUT:
+Balance for the Account Holder Sam is 1000 
+200 Money deposited
+Balance for the Account Holder Sam is 1200 
+10 withdrawn from account
+Balance for the Account Holder Sam is 1190 
+Insufficient balance!
+Cannot deposit negative money!
+Balance for the Account Holder Sameera is 10000 
+20000 Money deposited
+Balance for the Account Holder Sameera is 30000 
+1000 withdrawn from account
+Balance for the Account Holder Sameera is 29000 
+4000 withdrawn from account
+Balance for the Account Holder Sameera is 25000 
+Cannot deposit negative money!
+1250.0 Money deposited
+1250.0 interest is added successfully!
+Balance for the Account Holder Sameera is 26250.0 
+
+================================================================================================================
+
+'''
+2.Design a class Employee with private attributes for name and salary.
+Provide public methods to set and get these details.
+
+Create a subclass Manager that inherits from Employee and adds a department attribute.
+Also, create another subclass Developer that adds a programming_language attribute.
+
+Demonstrate how each object (Manager and Developer) can display their full details using a common display_info() method defined in the base class and extended in each subclass.
+'''
+
+PROGRAM:
+
+class Employee:
+    def __init__(self, name, salary):
+        self.__name = name
+        self.__salary = salary
+
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, new_name):
+        self.__name = new_name
+
+    def get_salary(self):
+        return self.__salary
+
+    def set_salary(self, salary):
+        self.__salary = salary
+
+    def display_info(self):
+        print(f"Emp Name: {self.__name}, Salary: {self.__salary}")
+
+class Manager(Employee):
+    def __init__(self, name, salary, department='General'):
+        super().__init__(name, salary)
+        self.department = department
+
+    def display_info(self):
+        print(f"Emp Name: {self.get_name()}, Salary: {self.get_salary()}, Manager of Dept: {self.department}")
+
+class Developer(Employee):
+    def __init__(self, name, salary, programming_language='python'):
+        super().__init__(name, salary)
+        self.programming_language = programming_language
+
+    def display_info(self):
+        print(f"Emp Name: {self.get_name()}, Salary: {self.get_salary()}, programming Lnaguage uses: {self.programming_language}")
+
+emp1 = Employee('Ram', 20000)
+print(f"Salary of {emp1.get_name()} : {emp1.get_salary()}")
+
+emp2 = Manager('Aisha', 120000, 'IT')
+emp2.display_info()
+
+emp3 = Developer('Harsh', 80000, 'Python')
+emp3.display_info()
+
+OUTPUT:
+Salary of Ram : 20000
+Emp Name: Aisha, Salary: 120000, Manager of Dept: IT
+Emp Name: Harsh, Salary: 80000, programming Lnaguage uses: Python
+
+=================================================================================================================
+
+'''
+3.Create a class Vehicle that has the following attributes:
+
+brand, model, __rental_price_per_day (private attribute)
+Include methods:
+display_info() → prints vehicle details
+set_price(price) → sets the daily rental price
+get_price() → returns the daily rental price
+'''
+
+class Vehicle:
+    def __init__(self, brand, model, rent_price):
+        self.brand = brand
+        self.model = model
+        self.__rental_price_per_day = rent_price
+
+    def get_price(self):
+        return self.__rental_price_per_day
+    def set_price(self, new_price):
+        self.__rental_price_per_day = new_price
+
+    def display_info(self):
+        print(f"Brand = {self.brand}, Model = {self.model}, Daily price = ₹{self.__rental_price_per_day}")
+
+class Car(Vehicle):
+    def __init__(self, brand, model, rent_price, seating_capacity=4, fuel_type='petrol'):
+        super().__init__(brand, model, rent_price)
+        self.seating_capacity = seating_capacity
+        self.fuel_type = fuel_type
+    def display_info(self):
+        print(f"Brand = {self.brand}\nModel = {self.model}")
+        print(f"seating capacity = {self.seating_capacity}\nfuel-type = {self.fuel_type}\nDaily price = ₹{self.get_price()}")
+
+class Bike(Vehicle):
+    def __init__(self, brand, model, rent_price, engine_capacity='', bike_type=''):
+        super().__init__(brand, model, rent_price)
+        self.engine_capacity = engine_capacity
+        self.bike_type = bike_type
+    def display_info(self):
+        print(f"Brand = {self.brand}, \nModel = {self.model}")
+        print(f"engine_capacity = {self.engine_capacity}, \nbike_type = {self.bike_type}\nDaily price = ₹{self.get_price()}")
+
+car1 = Car("Toyota", "Corolla", 0, seating_capacity=5, fuel_type="Petrol")
+car1.set_price(2500)
+
+bike1 = Bike("Yamaha", "R15", 0, engine_capacity="155cc", bike_type="Sports")
+bike1.set_price(1200)
+
+print("\n--- Car Details ---")
+car1.display_info()
+
+print("\n--- Bike Details ---")
+bike1.display_info()
+
+OUTPUT:
+--- Car Details ---
+Brand = Toyota
+Model = Corolla
+seating capacity = 5
+fuel-type = Petrol
+Daily price = ₹2500
+
+--- Bike Details ---
+Brand = Yamaha, 
+Model = R15
+engine_capacity = 155cc, 
+bike_type = Sports
+Daily price = ₹1200
