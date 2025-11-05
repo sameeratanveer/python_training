@@ -1,0 +1,460 @@
+File Handling: 
+
+===============================================================================================================
+1. 
+'''
+Create a text file named quotes.txt with at least 5 lines.
+Write a program to:
+Read and print the entire file content.
+Print the first 3 characters.
+Print each line with line numbers.
+'''
+
+file = open('quotes.txt', 'x')
+lines = ['Create a text file named quotes.txt with at least 5 lines.', 'Write a program to:', 'Read and print the entire file content.', 'Print the first 3 characters.', 'Print each line with line numbers.']
+for line in lines:
+    file.write(line+'\n')
+file.close()
+
+with open('quotes.txt', 'r') as f:
+    print(f"Entire file content: ")
+    print(f.read())
+    print()
+    f.seek(0)
+    print("First 3 characters: ")
+    print(f.read(3))
+    print()
+    f.seek(0)
+    print("Each line with line numbers: ")
+    for index, line in enumerate(f.readlines()):
+        print(index, line)
+print("Done!")
+
+OUTPUT:
+Entire file content: 
+Create a text file named quotes.txt with at least 5 lines.
+Write a program to:
+Read and print the entire file content.
+Print the first 3 characters.
+Print each line with line numbers.
+
+
+First 3 characters: 
+Cre
+
+Each line with line numbers: 
+0 Create a text file named quotes.txt with at least 5 lines.
+
+1 Write a program to:
+
+2 Read and print the entire file content.
+
+3 Print the first 3 characters.
+
+4 Print each line with line numbers.
+
+Done!
+
+==================================================================================================================
+2. 
+'''
+Create a program that takes user input (name and age) and writes them into users.txt.
+Run the program again and append more users.
+Verify by reading and printing all data.
+'''
+
+def write_to_file(name, age):
+    with open('users.txt', 'a') as f:
+        f.write(f"{name}, {age}\n")
+        return True
+name = input("Enter the name: ")
+age = int(input("Enter the age: "))
+if write_to_file(name, age):
+    print("Successfully noted!")
+
+with open('users.txt', 'r') as f:
+    print(f.read())
+
+
+OUTPUT:
+Enter the name: helin
+Enter the age: 20
+Successfully noted!
+sameera, 21
+anusha, 21
+kashish, 22
+helin, 20
+
+==============================================================================================================
+3. 
+'''
+Create a todo.txt file.
+Write 3 tasks initially.
+Reopen the same file in read mode and display them as a numbered list.
+'''
+tasks = ["Watch TV", "Eat", "Sleep"]
+with open("todo.txt", 'w+') as f:
+    f.write('\n'.join(tasks))
+    print("Reading the tasks!")
+    f.seek(0)
+    for task_num, task in enumerate(f.readlines(), 1):
+        print(task_num, task)
+
+OUTPUT:
+Reading the tasks!
+1 Watch TV
+
+2 Eat
+
+3 Sleep
+
+=============================================================================================================
+4. seek and tell
+'''
+Read the first 10 characters of a file, print current pointer position, move it back to start, and print first line again.
+'''
+
+with open("quotes.txt", "r") as f:
+    print(f"Reading first 10 characters of a file: {f.read(10)}")
+    print(f"Current Pointer position: {f.tell()}")
+    f.seek(0)
+    print(f"Reading first line again after moving back to first position: {f.readline()}")
+    
+OUTPUT:
+Reading first 10 characters of a file: Create a t
+Current Pointer position: 10
+Reading first line again after moving back to first position: Create a text file named quotes.txt with at least 5 lines.
+
+=================================================================================================================
+
+5. Binary file:
+photo_file = "C:/Users/SameeraTanveer/OneDrive - BILVANTIS TECHNOLOGIES PRIVATE LIMITED/Pictures/Screenshots/test.png"
+with open(photo_file, "rb") as f:
+    data = f.read()
+    print(data)
+    print(type(data))   
+
+================================================================================================================
+
+6. copy photo:
+
+photo_file = "C:/Users/SameeraTanveer/OneDrive - BILVANTIS TECHNOLOGIES PRIVATE LIMITED/Pictures/Screenshots/test.png"
+copy_to = "C:/Users/SameeraTanveer/OneDrive - BILVANTIS TECHNOLOGIES PRIVATE LIMITED/Pictures/Screenshots/copy.png"
+with open(photo_file, "rb") as source:
+    with open(copy_to, "wb") as target:
+        target.write(source.read())
+
+OUTPUT:
+Photo copied!
+
+===============================================================================================================
+
+'''
+Each student’s name and marks stored in students.txt as:
+Name - Marks
+Program menu:
+Add Student
+View All Students
+Find Student by Name
+Delete File
+'''
+import os
+
+
+while True:
+    user_choice = int(input("Press 1 to add student\nPress 2 to View all students and their marks\nPress 3 to find student by name\nPress 4 to delete the file! : "))
+    if user_choice == 1:
+        name = input("Enter the name: ").lower()
+        marks = float(input("Enter the marks: "))
+        with open("students.txt", 'a+') as f:
+            f.write(f"{name},{marks}\n")
+    elif user_choice == 2:
+        with open("students.txt", 'r') as f:
+            print(f.read())
+    elif user_choice == 3:
+        name_search = input("Enter the name of the student : ").lower()
+        found_student = False
+        with open("students.txt", 'r') as f:
+            for line in f.readlines():
+                if name_search == line.split(',')[0]:
+                    found_student = True
+                    print(line)
+            if not found_student:
+                print(f"Student with the name {name_search} does not exists!")
+    elif user_choice == 4:
+        print("To delete a file, we need to authenticate!")
+        admin = input("Enter the admin username: ")
+        password = input("Enter the password! :")
+        if admin == 'admin' and password == '1234':
+            os.remove("students.txt")
+            if not os.path.exists("students.txt"):
+                print("File deleted successfully!")
+    else:
+        exit()
+
+
+
+OUTPUT:
+
+Press 1 to add student
+Press 2 to View all students and their marks
+Press 3 to find student by name
+Press 4 to delete the file! : 2
+sameera,22.0
+jeny,24.0
+
+Press 1 to add student
+Press 2 to View all students and their marks
+Press 3 to find student by name
+Press 4 to delete the file! : 1
+Enter the name: anu
+Enter the marks: 33
+Press 1 to add student
+Press 2 to View all students and their marks
+Press 3 to find student by name
+Press 4 to delete the file! : 2
+sameera,22.0
+jeny,24.0
+anu,33.0
+
+Press 1 to add student
+Press 2 to View all students and their marks
+Press 3 to find student by name
+Press 4 to delete the file! : 3
+Enter the name of the student : jeny
+jeny,24.0
+
+Press 1 to add student
+Press 2 to View all students and their marks
+Press 3 to find student by name
+Press 4 to delete the file! : 4
+To delete a file, we need to authenticate!
+Enter the admin username: admin
+Enter the password! :1234
+File deleted successfully!
+Press 1 to add student
+Press 2 to View all students and their marks
+Press 3 to find student by name
+Press 4 to delete the file! : 5
+
+================================================================================================================
+
+EXCEPTION HANDLING:
+
+'''
+Write a program that asks for two integers and prints their division. Use try/except to handle non-integer input and division by zero separately.
+'''
+try:
+    num1 = int(input("Enter Number 1: "))
+    num2 = int(input("Enter Number 2: "))
+    res = num1 / num2
+except ValueError:
+    print("Value is not integer!")
+except ZeroDivisionError:
+    print("Can not divide by zero!")
+except Exception as e:
+    print(e)
+else:
+    print(f"{num1}/{num2} = {num1 / num2}")
+finally:
+    print("Execution successful!")
+print("Program finished!")
+
+OUTPUT:
+Enter Number 1: 0
+Enter Number 2: 100
+0/100 = 0.0
+Execution successful!
+Program finished!
+
+Enter Number 1: 100
+Enter Number 2: 0
+Can not divide by zero!
+Execution successful!
+Program finished!
+
+Enter Number 1: 100
+Enter Number 2: 20
+100/20 = 5.0
+Execution successful!
+Program finished!
+
+Enter Number 1: string
+Value is not integer!
+Execution successful!
+Program finished!
+
+=============================================================================================================
+
+'''
+Create a loop that reads inputs until user enters quit. Use try to catch KeyboardInterrupt and print a friendly message, but allow SystemExit to propagate.
+'''
+while True:
+    try:
+        inp = input("Enter the number: ")
+    except Exception as e:
+        print(e)
+    except KeyboardInterrupt:
+        print("Program interrupted by keyboard interruption!")
+    else:
+        if inp.lower() == 'quit':
+            exit()
+    finally:
+        print("Finally!")
+
+OUTPUT:
+Enter the number: 1
+Finally!
+Enter the number: str
+Finally!
+Enter the number: Program interrupted by keyboard interruption!
+Finally!
+Enter the number: quit
+Finally!
+
+===============================================================================================================
+5 Questions: 
+
+1. 
+'''
+Write a program that:
+Takes a filename from the user.
+Tries to open and read the file.
+If the file doesn’t exist, catch the exception and print "File not found. Please check the name."
+If successful, print the file content.
+'''
+import os
+
+file_name = input("Enter the file name: ")
+try:
+    with open(file_name, 'r') as f:
+        print(f.read())
+except FileNotFoundError:
+    print("File not found. Please check the name.")
+except Exception as e:
+    print("Caught error: ", e)
+else:
+    print("Successfully read from the file!")
+finally:
+    print("Program executed!")
+
+OUTPUT:
+Enter the file name: test.txt
+Write a program that:
+Takes a filename from the user.
+Tries to open and read the file.
+If the file doesnâ€™t exist, catch the exception and print "File not found. Please check the name."
+If successful, print the file content.
+Successfully read from the file!
+Program executed!
+
+Enter the file name: etc.txt
+File not found. Please check the name.
+Program executed!
+
+
+=================================================================================================================
+
+2.
+'''
+Write a program that:
+Asks the user to enter text input.
+Tries to open a file in write mode and save the input.
+If any I/O error occurs, catch it using except IOError as e and print the error message.
+'''
+
+user_input = input("Enter the text input: ")
+try:
+    with open("test.txt", "w") as f:
+        f.write(user_input)
+except Exception as e:
+    print(e)
+else:
+    print("Written successfully!")
+finally:
+    print("Execution done!")
+
+OUTPUT:
+Enter the text input: read and write
+[Errno 13] Permission denied: 'test.txt'
+Execution done!
+
+=================================================================================================================
+3.
+'''
+Write a program to:
+Read each line.
+Split the two numbers and divide them.
+Handle exceptions for:
+ZeroDivisionError
+ValueError
+FileNotFoundError
+Store the successful division results in a new file results.txt.
+'''
+
+try:
+    with open("numbers.txt", 'r') as f:
+        try:
+            with open("division_results.txt", 'a+') as f2:
+                for line in f.readlines():
+                    line = line.split(' ')
+                    try:
+                        result = int(line[0])/int(line[1])
+                    except ValueError:
+                        print("Number should be integer!")
+                        f2.write(f"{line[0]}/{line[1]} = Number should be integer!\n")
+                    except ZeroDivisionError:
+                        print("Cannot divide by Zero!")
+                        f2.write(f"{line[0]}/{line[1]} = Cannot divide by Zero!\n")
+                    else:
+                        f2.write(f"{line[0]}/{line[1]} = {result}\n")
+        except IOError as e:
+            print(e)
+except FileNotFoundError:
+    print("File does not exists!")
+else:
+    print("Read from file successfully!")
+
+OUTPUT:
+Cannot divide by Zero!
+Read from file successfully!
+
+division_results.txt
+10/2
+ = 5.0
+8/0
+ = Cannot divide by Zero!
+5/5 = 1.0
+
+=================================================================================================================
+4.
+'''
+Create a program that:
+Reads ages from a file ages.txt (each line contains one number).
+Define a custom exception class NegativeAgeError.
+If any age is negative, raise NegativeAgeError with a message "Invalid age found in file".
+Catch it and write that invalid value into a file named invalid_ages.txt.
+'''
+
+class NegativeAgeError(Exception):
+    pass
+
+with open("ages.txt", "r") as f:
+    ages = f.readlines()
+    for age in ages:
+        with open("invalid_ages.txt", 'a') as f2:
+            try:
+                if int(age) < 0:
+                    f2.write(age)
+                    raise NegativeAgeError("Invalid age found in file")
+            except ValueError:
+                print(f"Invalid value for age! {age}")
+
+OUPTUT:
+    raise NegativeAgeError("Invalid age found in file")
+NegativeAgeError: Invalid age found in file
+
+invalid_ages.txt:
+-100
+
+===============================================================================================================
