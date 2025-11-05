@@ -1,0 +1,355 @@
+1. hasattr(obj, key), setattr(obj, key, val), get(obj, key, def)
+================================================================================================================
+'''
+Q1:
+Create a class Car with attributes: brand, model, price.
+Now write code that:
+Checks if the object has an attribute price.
+If it does, prints it.
+If not, creates it using setattr() and assigns a value.
+Then use getattr() to print it dynamically.
+'''
+
+class Car:
+    def __init__(self, brand, model, price=0):
+        self.brand = brand
+        self.model = model
+        self.price = price
+car1 = Car('XYZ', 'x123')
+if hasattr(car1, 'price'):
+    print(f"Does car1 have price attribuute? {hasattr(car1, 'price')} ")
+else:
+    print(f"No car1 does not have price attribute.. creating one, and the price is: ")
+    setattr(car1, 'price', 200)
+    print(getattr(car1, 'price'))
+
+OUTPUT1:
+Does car1 have price attribuute? True
+
+PROGRAM2:
+'''
+Q1:
+Create a class Car with attributes: brand, model, price.
+Now write code that:
+Checks if the object has an attribute price.
+If it does, prints it.
+If not, creates it using setattr() and assigns a value.
+Then use getattr() to print it dynamically.
+'''
+
+class Car:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+car1 = Car('XYZ', 'x123')
+if hasattr(car1, 'price'):
+    print(f"Does car1 have price attribuute? {hasattr(car1, 'price')}")
+else:
+    print(f"No car1 does not have price attribute.. creating one, and the price is: ")
+    setattr(car1, 'price', 200)
+    print(getattr(car1, 'price'))
+
+OUTPUT:
+No car1 does not have price attribute.. creating one, and the price is: 
+200
+
+================================================================================================================
+'''   
+Question 2:
+Modify the above to:
+Add a new attribute mileage dynamically if not present.
+Print all attributes of the object without using obj.__dict__ directly. 
+'''
+setattr(car1, 'mileage', 10)
+print(f"All attributes are: {dir(car1)}")
+# this gives all the attributes, but we want only the user defined attributes of the object.
+all_attributes_car1 = dir(car1)
+only_userdefined_attributes = [attribute for attribute in all_attributes_car1 if not attribute.startswith('__') and not attribute.startswith('_')]
+print(only_userdefined_attributes)
+
+OUTPUT:
+All attributes are: ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__firstlineno__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', 'brand', 'mileage', 'model', 'price']
+['brand', 'mileage', 'model', 'price']
+
+==================================================================================================================
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Employee(Person):
+    def __init__(self, name, emp_id, salary):
+        super().__init__(name)
+        self.emp_id = emp_id
+        self.salary = salary
+'''
+Now write a function print_employee_info(obj) that:
+First checks if the object has emp_id and salary using hasattr()
+If yes → prints their values using getattr()
+If not → adds them dynamically using setattr() and default values
+'''
+def print_employee_info(obj):
+    if hasattr(obj, 'emp_id'):
+        print(f"Emp id ={getattr(obj, 'emp_id')}")
+    else:
+        print("Emp id attriute not found! Dynamically created the attribute")
+        setattr(obj, 'emp_id', None)
+        print(f"Emp id = {getattr(obj, 'emp_id')}")
+    if hasattr(obj, 'salary'):
+            print(f"Salary = {getattr(obj, 'salary')}")
+    else:
+            print("Salary attriute not found! Dynamically created the attribute")
+            setattr(obj, 'salary',0)
+            print(f"Salary = {getattr(obj, 'salary')}")
+
+
+person1 = Person('sam')
+emp1 = Employee('Same', 3, 10)
+print("For person sam: the details are: ")
+print_employee_info(person1)
+print("For employee same: the details are: ")
+print_employee_info(emp1)
+
+OUTPUT:
+For person sam: the details are: 
+Emp id attriute not found! Dynamically created the attribute
+Emp id = None
+Salary attriute not found! Dynamically created the attribute
+Salary = 0
+For employee same: the details are: 
+Emp id =3
+Salary = 10
+
+================================================================================================================
+
+isinstance(), issubclass():
+
+class Animal:
+    pass
+class Dog(Animal):
+    pass
+class Cat(Animal):
+    pass
+
+'''
+Write a function identify_animal(obj) that:
+Prints "Dog detected" if it’s an instance of Dog
+Prints "Cat detected" if it’s an instance of Cat
+Prints "Unknown animal" otherwise
+Then test with objects of all three.
+'''
+
+def identify_animal(obj):
+    if isinstance(obj, Dog):
+        print("Dog Detected!")
+    elif isinstance(obj, Cat):
+        print("Cat Detected!")
+    else:
+        print("Unknown animal")
+animal1 = Animal()
+cat1 = Cat()
+dog1 = Dog()
+identify_animal(animal1)
+identify_animal(cat1)
+identify_animal(dog1)
+print(f"Is Dog a subclass of animal? {issubclass(Dog, Animal)}")
+
+OUTPUT:
+Unknown animal
+Cat Detected!
+Dog Detected!
+Is Dog a subclass of animal? True
+
+==================================================================================================================
+
+class Calculator:
+    def add(self, a, b): return a + b
+    def sub(self, a, b): return a - b
+
+'''
+Now write code that:
+Takes user input (string): "add" or "sub".
+Checks if the class has that method (hasattr()).
+Dynamically calls it using getattr().
+'''
+inp = input("Enter 'add' or 'sub': ")
+calc = Calculator()
+if hasattr(calc, inp):
+    method1 = getattr(calc, inp)
+    print(method1(10,20))
+
+OUTPUT:
+Enter 'add' or 'sub': add
+30
+
+Enter 'add' or 'sub': sub
+-10
+
+Enter 'add' or 'sub': mul
+
+=============================================================================================================
+
+'''
+Create a class Student with name, roll_no.
+Now take a dictionary:
+data = {"age": 21, "department": "CSE", "grade": "A"}
+Loop through this dictionary and dynamically attach each key-value pair as attributes of the object using setattr().
+'''
+class Student:
+    pass
+data = {"age": 21, "department": "CSE", "grade": "A"}
+student1 = Student()
+for key, value in data.items():
+    setattr(student1, key, value)
+print(student1.age, student1.department, student1.grade)
+
+OUTPUT:
+21 CSE A
+
+=============================================================================================================
+getattr(), setattr() with private variables:
+
+class Account:
+    def __init__(self):
+        self.__balance = 1000
+        self._branchcode = 'ABC'
+acc = Account()
+print(f"Branchcode = {getattr(acc, '_branchcode')}")
+# print(f"Balance = {getattr(acc, '__balance')}")# can be accessed using _Account__balance
+setattr(acc, '_branchcode', 'XYZ')
+print(f"Branchcode after chanfing = {getattr(acc, '_branchcode')}")
+setattr(acc, '__balance', 100)
+print(f"balance after changing: {getattr(acc, '__balance')}")
+
+OUTPUT:
+Branchcode = ABC
+Branchcode after chanfing = XYZ
+balance after changing: 100
+
+This __balance using setattr creates new attribute, doesn't change the original one.
+
+===============================================================================================================
+
+__del__  and del
+
+class Account:
+    def __init__(self):
+        self.balance = 1000
+
+    def __del__(self):
+        print(f"Instead of deleting, resetting the balance:")
+        self.balance = 0
+        print(f"Balance = {self.balance}")
+acc = Account()
+del acc.balance
+
+OUTPUT:
+Instead of deleting, resetting the balance:
+Balance = 0
+
+=================================================================================================================
+__str__, __repr__:
+class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+
+    def __str__(self):
+        return f"Student {self.name} scored {self.marks}"
+
+    def __repr__(self):
+        return f"Student(name='{self.name}', marks={self.marks})"
+
+s = Student("Sameera", 95)
+print(s)        # Uses __str__
+print(str(s))   # Also uses __str__
+print(repr(s))  # Uses __repr__
+
+OUTPUT:
+Student Sameera scored 95
+Student Sameera scored 95
+Student(name='Sameera', marks=95)
+
+================================================================================================================
+
+__call__ :
+class Greeter:
+    def __init__(self, name):
+        self.name = name
+
+    def __call__(self):
+        print(f"Hello, {self.name}")
+
+g = Greeter('Sam')
+g()
+
+Output:
+Hello, Sam
+
+-------------------------------------------------------------------------------
+'''
+Create a class Counter that keeps track of how many times it has been called.
+Each call should print "Called n times" where n increases with every call.
+'''
+class Counter:
+    counter = 0
+    def __call__(self):
+        Counter.counter += 1
+        print(Counter.counter)
+c = Counter()
+c()
+c()
+c()
+
+OUTPUT:
+1
+2
+3
+
+================================================================================================
+
+'''
+Instance method, static method, class method.
+'''
+
+class Laptop:
+    discount = 10
+    def __init__(self, brand, price):
+        self.brand = brand
+        self.price = price
+
+    def final_price(self):
+        return self.price - (self.price * Laptop.discount / 100)
+
+    @classmethod
+    def update_discount(cls, new_discount):
+        cls.discount = new_discount
+
+    @staticmethod
+    def isvalid_price(price):
+        if price > 0:
+            print("True")
+        else:
+            print("False")
+
+    def __str__(self):
+        return f"Brand: {self.brand}, Price: {self.price}"
+
+laptop1 = Laptop('X', 45000)
+laptop1.__str__()
+print(f"Discount: {laptop1.discount}")
+print(f"Final price after initial discount = {laptop1.final_price()}")
+Laptop.update_discount(20)
+print(f"Discount: {laptop1.discount}")
+print(f"Final price after  discount  update = {laptop1.final_price()}")
+Laptop.isvalid_price(100)
+
+OUTPUT:
+Discount: 10
+Final price after initial discount = 40500.0
+Discount: 20
+Final price after  discount  update = 36000.0
+True
+
+
+
+
