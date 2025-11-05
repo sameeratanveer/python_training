@@ -1,0 +1,5 @@
+Create a text file named quotes.txt with at least 5 lines.
+Write a program to:
+Read and print the entire file content.
+Print the first 3 characters.
+Print each line with line numbers.
