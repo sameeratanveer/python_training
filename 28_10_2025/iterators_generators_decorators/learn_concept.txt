@@ -1,0 +1,249 @@
+Iterators:
+
+Iterator is an object that we can use to iterate/loop over its elements one at a time.
+
+It have __iter__() or iter() which returns the iterator object itself.
+        __nect__() or next() which returns the current element and moves the iterator pointer to the next element until all the elements are looped through, then when all the elements are looped over and no more elements are there, then it raises stopIteration error.
+
+================================================================================================================
+
+Q1:
+'''
+Create a list of colors and:
+Convert it to an iterator using iter().
+Use next() manually to print elements until StopIteration occurs (handle it with try-except).
+'''
+
+class ColorIter:
+    def __init__(self, colors):
+        self.colors = colors
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        try:
+            current_element = self.colors[self.index]
+            self.index += 1
+            return current_element
+        except:
+            raise StopIteration
+
+colors = ['Red', 'Blue', 'Green']
+coloriter = ColorIter(colors)
+for color in coloriter:
+    print(color)
+
+OUTPUT:
+Red
+Blue
+Green
+
+=================================================================================================================
+
+Q2: 
+
+'''
+Create a class Countdown that:
+Takes a number n in __init__.
+Iterates from n down to 1.
+Prints "Liftoff 🚀" when iteration ends.
+'''
+
+class Countdown:
+    def __init__(self, n):
+        self.n = n
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.n < 1:
+            print("Liftoff!")
+            raise StopIteration
+        else:
+            current = self.n
+            self.n = self.n - 1
+            return current
+countdown10 = Countdown(10)
+for count in countdown10:
+    print(count)
+
+OUTPUT:
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+Liftoff!
+
+==================================================================================================================
+
+'''
+Create a class ReverseRange that works like Python’s built-in range() but iterates backward.
+'''
+class ReverseRange:
+    def __init__(self, end, start):
+        self.start = start
+        self.end = end
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.end > self.start:
+            raise StopIteration
+        else:
+            current = self.start
+            self.start -= 1
+            return current
+
+for num in ReverseRange(1,5):
+    print(num)
+
+OUTPUT:
+5
+4
+3
+2
+1
+
+=================================================================================================================
+
+
+class Fibonnaci:
+    def __init__(self, n):
+        self.n = n
+        self.first = 0
+        self.second = 1
+        self.current_index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.current_index == 0 and self.current_index < self.n:
+            self.current_index += 1
+            return self.first
+        elif self.current_index == 1 and self.current_index < self.n:
+            self.current_index += 1
+            return self.second
+        elif self.current_index < self.n:
+            current = self.first + self.second
+            self.first = self.second
+            self.second = current
+            self.current_index += 1
+            return current
+        else:
+            raise StopIteration
+
+for num in Fibonnaci(8):
+    print(num)
+
+OUTPUT:
+0
+1
+1
+2
+3
+5
+8
+13
+
+==============================================================================================================
+
+GENERATORS:
+
+Q1: 
+
+def even_numbers(n):
+    current = 0
+    while current <= n:
+        yield current
+        current += 2
+
+for num in even_numbers(10):
+    print(num)
+
+OUTPUT:
+0
+2
+4
+6
+8
+10
+
+=========================================================================================================
+
+Q2: Reverse a string:
+
+def reverse_string(s):
+    current_index = len(s)-1
+    while current_index >= 0:
+        yield s[current_index]
+        current_index -= 1
+
+for char in reverse_string("Hello"):
+    print(char)
+
+OUTPUT:
+o
+l
+l
+e
+H
+
+==============================================================================================================
+
+Q3: Squares:
+
+def squares(n):
+    current = 1
+    while current <= n:
+        yield current * current
+        current += 1
+
+for square in squares(10):
+    print(square)
+
+OUTPUT:
+1
+4
+9
+16
+25
+36
+49
+64
+81
+100
+
+=============================================================================================================
+
+'''
+Create a generator chunk_reader(iterable, chunk_size) that yields chunks (lists) of elements from an iterable.
+'''
+
+iterable = [1, 2, 3, 4, 5, 6, 7]
+chunk_size = 3
+
+def chunk_reader(iterable, chunk_size):
+    current_element = 0
+    while current_element <= len(iterable):
+        yield iterable[current_element:current_element+chunk_size]
+        current_element += chunk_size
+
+for chunks in chunk_reader(iterable, chunk_size):
+    print(chunks)
+
+OUTPUT:
+[1, 2, 3]
+[4, 5, 6]
+[7]
+
