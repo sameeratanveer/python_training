@@ -1,0 +1,214 @@
+from abc import ABC, abstractmethod
+'''
+Products (like Electronics and Groceries) are created with price, stock, and category details.
+Customers can add products to their cart and proceed to checkout.
+Different discount policies (like SeasonalDiscount) can be applied at checkout.
+The system tracks total sales and product listings.
+'''
+
+===============================================================================================================
+class Product:
+    total_products = 0
+    def __init__(self, name, category, price, stock):
+        Product.total_products += 1
+        self.name = name
+        self.category = category
+        self.__price = price
+        self.__stock = stock
+
+    def get_price(self):
+        return self.__price
+    def set_price(self, new_price):
+        if Product.validate_price(new_price):
+            self.__price = new_price
+            print("Price updated!")
+        else:
+            print("Invalid Price! Price should be > 0!")
+
+    def get_stock(self):
+        return  self.__stock
+    def set_stock(self, new_stock):
+        if Product.validate_price(new_stock):
+            self.__stock = new_stock
+            print("Stock Updated!")
+        else:
+            print("Invalid stock quantity!")
+
+
+    def is_available(self, quantity):
+        if self.__stock >= quantity:
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return f'{self.name} - ₹{self.__price:.2f} (Category: {self.category}, Stock: {self.__stock})'
+
+    @classmethod
+    def from_string(cls, product_string):
+        lst = product_string.split(',')
+        lst[2] = float(lst[2])
+        lst[3] = int(lst[3])
+        return cls(lst[0], lst[1], lst[2], lst[3])
+
+    @staticmethod
+    def validate_price(price):
+        if price > 0:
+            return True
+        else:
+            return False
+
+==============================================================================================================
+class Electronic(Product):
+    def __init__(self, name, price, stock, warranty_period):
+        super().__init__(name, 'Electronic', price, stock)
+        self.warranty_period = warranty_period
+    def __str__(self):
+        return f'{self.name} - ₹{self.get_price():.2f} (Category: {self.category}, Stock: {self.get_stock()}) - Warranty: {self.warranty_period} months'
+
+
+class Grocery(Product):
+    def __init__(self, name, price, stock, expiry_date):
+        super().__init__(name, 'Grocery', price, stock)
+        self.expiry_date = expiry_date
+
+    def __str__(self):
+        return f'{self.name} - ₹{self.get_price():.2f} (Category: {self.category}, Stock: {self.get_stock()}) - Expiry Date: {self.expiry_date}'
+
+product1 = Product("Product1", 'Cat1', 200, 20)
+print(hasattr(product1, '_Product__price'))
+print(getattr(product1, '_Product__price'))
+print(setattr(product1, '_Product__stock', 50))
+
+===============================================================================================================
+class Customer:
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+        self.cart = []
+
+    def add_to_cart(self, product, quantity):
+        if product.is_available(quantity):
+            self.cart.append((product, quantity))
+            print("Added to the cart!")
+        else:
+            print("Insufficient stock")
+
+    def view_cart(self):
+        total = 0
+        for product, quantity in self.cart:
+            subtotal = product.get_price() * quantity
+            total += subtotal
+            print(f"Product: {product.name} - ₹{product.get_price():.2f}* {quantity} = ₹{subtotal:.2f}")
+        print(f"Tortal: ₹{total:.2f}")
+
+
+=================================================================================================================
+class DiscountPolicy(ABC):
+    @abstractmethod
+    def calculate_discount(self, amount):
+        pass
+
+class NoDiscount(DiscountPolicy):
+    def calculate_discount(self, amount):
+        return amount
+
+class SeasonalDiscount(DiscountPolicy):
+    def __init__(self, discount_percent):
+        self.discount_percent = discount_percent / 100
+    def calculate_discount(self, amount):
+        return amount - amount* self.discount_percent
+
+
+============================================================================================================
+class ShoppingSystem:
+    total_sales = 0
+    def __init__(self):
+        self.products = []
+        self.customers = []
+
+    def add_product(self, product_object):
+        self.products.append(product_object)
+
+    def add_customer(self, customer_object):
+        self.customers.append(customer_object)
+
+    def list_products(self):
+        for product in self.products:
+            if product.get_stock() > 0:
+                print(product.__str__())
+
+    def find_product_by_name(self, name):
+        for product in self.products:
+            if product.name == name:
+                return product
+        return None
+
+    def checkout(self, customer_obj, discount_policy):
+        total_amount = 0
+        for product, quantity in customer_obj.cart:
+            subtotal = product.get_price() * quantity
+            total_amount += subtotal
+
+        print(f"\n\nOriginal Total: ₹{total_amount:.2f}")
+
+        discounted_total = discount_policy.calculate_discount(total_amount)
+        print(f"Total after discount: ₹{discounted_total:.2f}")
+
+        for product, quantity in customer_obj.cart:
+            product.set_stock(product.get_stock() - quantity)
+        customer_obj.cart.clear()
+        ShoppingSystem.total_sales += discounted_total
+
+        print("Checkout complete! Thank you for shopping!\n")
+
+    def __len__(self):
+        return len(self.products)
+
+    def __getitem__(self, index):
+        return self.products[index]
+
+
+===============================================================================================================
+laptop = Electronic("Laptop", 50000, 5, 24)
+rice = Grocery("Basmati Rice", 1200, 10, "2025-12-31")
+
+cust1 = Customer("Sameera", "sameera@email.com")
+
+shop = ShoppingSystem()
+shop.add_product(laptop)
+shop.add_product(rice)
+shop.add_customer(cust1)
+
+cust1.add_to_cart(laptop, 1)
+cust1.add_to_cart(rice, 2)
+
+cust1.view_cart()
+
+discount = SeasonalDiscount(10)
+shop.checkout(cust1, discount)
+
+print(f"Total Sales in System: ₹{ShoppingSystem.total_sales:.2f}")
+
+===============================================================================================================
+OUTPUT:
+True
+200
+None
+Added to the cart!
+Added to the cart!
+Product: Laptop - ₹50000.00* 1 = ₹50000.00
+Product: Basmati Rice - ₹1200.00* 2 = ₹2400.00
+Tortal: ₹52400.00
+
+
+Original Total: ₹52400.00
+Total after discount: ₹47160.00
+Stock Updated!
+Stock Updated!
+Checkout complete! Thank you for shopping!
+
+Total Sales in System: ₹47160.00
+
+
+
