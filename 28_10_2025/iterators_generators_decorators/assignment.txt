@@ -1,0 +1,301 @@
+1. Write a generator function to yield squares of numbers up to n.
+
+
+def generate_squares(n):
+    current = 1
+    while current <= n:
+        yield current * current
+        current += 1
+
+for square in generate_squares(10):
+    print(square)
+
+OUTPUT:
+1
+4
+9
+16
+25
+36
+49
+64
+81
+100
+
+==============================================================================================================
+
+2. Create a generator that yields Fibonacci numbers indefinitely.
+
+def generate_fibonnaci():
+    first = 0
+    second = 1
+    while True:
+        yield first
+        first, second = second, first + second
+
+for num in generate_fibonnaci():
+    print(num)
+    if num > 50:
+        break
+
+OUTPUT:
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+55
+
+If i remove that if condition and break then it is indefinite Fibonacci series.
+
+=============================================================================================================
+
+3. Create a custom iterator class that iterates over a string and returns only vowels.
+
+class VowelReturn:
+    def __init__(self, s):
+        self.s = s
+        self.current = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        while self.current < len(self.s):
+            char = self.s[self.current]
+            self.current += 1
+            if char.lower() in 'aeiou':
+                return char
+        raise StopIteration
+
+for vowel in VowelReturn('Hello'):
+    print(vowel)
+
+OUTPUT:
+e
+o
+
+==============================================================================================================
+
+4. Implement a class ReverseList that takes a list and iterates through it in reverse order.
+
+class ReverseList:
+    def __init__(self, lst):
+        self.lst = lst
+        self.current = len(lst)-1
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.current >=0:
+            current_element = self.lst[self.current]
+            self.current -= 1
+            return current_element
+        else:
+            raise StopIteration
+
+for num in ReverseList([1,2,3,4,5]):
+    print(num)
+
+OUTPUT:
+5
+4
+3
+2
+1
+
+================================================================================================================
+
+6. Create a decorator that logs the arguments and return value of a function.
+
+def log_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(f"Function {func.__name__} is called with arguments {args}, {kwargs}")
+        result = func(*args, **kwargs)
+        print(f"Function returned {result}")
+        return result
+    return wrapper
+
+@log_decorator
+def sum_args(*args):
+    return sum(args)
+
+sum_args(1,2)
+
+OUTPUT: 
+Function sum_args is called with arguments (1, 2), {}
+Function returned 3
+
+===============================================================================================================
+
+7. Implement a decorator that checks if a user is authenticated before executing a function.
+
+def authenticate_execute(func):
+    def wrapper(*args, **kwargs):
+        user_name = input("Enter name: ")
+        user_password = input("Enter password: ")
+        if user_name == "sameera" and user_password == "1234":
+            print("Authenticated successfully! Executing the function!")
+            func(*args, **kwargs)
+        else:
+            print("Authentication failed!")
+    return wrapper
+
+
+class AuthenticateUser:
+    @authenticate_execute
+    def execute_func(self):
+        print("Executed after authentication!")
+
+
+au = AuthenticateUser()
+au.execute_func()
+
+OUTPUT:
+Enter name: sam
+Enter password: 12
+Authentication failed!
+
+Enter name: sameera
+Enter password: 1234
+Authenticated successfully! Executing the function!
+Executed after authentication!
+
+==============================================================================================================
+
+8. '''
+Write a class MathUtils with a static method to check if a number is prime.
+'''
+class MathUtils:
+    @staticmethod
+    def prime(number):
+        prime_bool = True
+        for i in range(2,number//2):
+            if number % i:
+                prime_bool = False
+                return prime_bool
+        return prime_bool
+
+print(MathUtils.prime(5))
+
+OUTPUT:
+True
+
+==================================================================================================================
+
+9. '''
+Create a class TemperatureConverter with static methods for Celsius ↔ Fahrenheit conversions.
+'''
+
+class TemperatureConverter:
+    @staticmethod
+    def celsius_fahrenheit(temp):
+        return f' {temp * 1.8 + 32} F'
+
+    @staticmethod
+    def fahrenheit_celsius(temp):
+        return f'{(temp - 32)*5/9} C'
+
+inp = int(input("Press 1 to convert temperature from Celsius to Fahrenheit, else 2 otherwise: "))
+if inp == 1:
+    celsius = float(input("Enter celsius to convert to Fahrenheit : "))
+    print(TemperatureConverter.celsius_fahrenheit(celsius))
+elif inp == 2:
+    fahrenheit = float(input("Enter fahrenheit to convert to celsius : "))
+    print(TemperatureConverter.fahrenheit_celsius(fahrenheit))
+else:
+    print("Invalid input!")
+
+OUTPUT:
+Press 1 to convert temperature from Celsius to Fahrenheit, else 2 otherwise: 2
+Enter fahrenheit to convert to celsius : 212
+100.0 C
+
+=======================================================================================================
+
+10. Scenario: Why might you choose a static method over a normal method or class method? Implement an example.
+
+Answer: Static methods are used over normal method or class method is because the logic that is used is logically belongs to class but it does not depend on class variables or instance variables.. These can be used as helper function.. 
+
+For example while setting the new price of the product.. we can use the helper function which is a static method to check if the new price we are setting is a valid price or not then only we can change to new price.
+
+Example: 
+@staticmethod
+    def validate_price(price):
+        if price > 0:
+            return True
+        else:
+            return False
+
+    def set_price(self, new_price):
+        if Product.validate_price(new_price):
+            self.__price = new_price
+            print("Price updated!")
+        else:
+            print("Invalid Price! Price should be > 0!")
+
+===============================================================================================================
+
+'''
+11.Scenario: Design an abstract base class PaymentGateway with abstract methods like authenticate() and pay(), and
+implement subclasses for CreditCardPayment and UPIPayment.
+'''
+
+from abc import ABC, abstractmethod
+
+class PaymentGateway(ABC):
+    @abstractmethod
+    def authenticate(self):
+        pass
+
+    @abstractmethod
+    def pay(self):
+        pass
+
+class CreditCardPayment(PaymentGateway):
+    def __init__(self, cardnumber, expiry_date, cvv, amount):
+        self.cardnumber = cardnumber
+        self.expiry_date = expiry_date
+        self.cvv = cvv
+        self.amount = amount
+    def authenticate(self):
+        print("Card Authenticated!")
+
+
+    def pay(self):
+        print(f"Paid ₹{self.amount} using Credit Card successfully")
+
+class UPIPayment(PaymentGateway):
+    def __init__(self, upi_id, pin, amount):
+        self.upi_id =upi_id
+        self.pin = pin
+        self.amount = amount
+    def authenticate(self):
+        if len(self.pin) < 4:
+            print("Authenticated successfully")
+
+    def pay(self):
+        print(f"Paid ₹{self.amount} using UPI successfully")
+
+choice = int(input("Choose payment method Enter 1 for card, enter 2 for upi : "))
+if choice == 1:
+    card = CreditCardPayment("1234567890123456", "12/26", "123", 5000)
+    card.authenticate()
+    card.pay()
+elif choice== 2:
+    upi = UPIPayment("sameera@upi", "1234", 2000)
+    upi.authenticate()
+    upi.pay()
+else:
+    print("Invalid choice")
+
+OUTPUT:
+Choose payment method Enter 1 for card, enter 2 for upi : 1
+Card Authenticated!
+Paid ₹5000 using Credit Card successfully
