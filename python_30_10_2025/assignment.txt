@@ -1,0 +1,199 @@
+1. Comprehensions: 
+'''
+Create a list of cubes for numbers 1–10 using list comprehension.
+'''
+cubes = [x**3 for x in range(1,11)]
+print(cubes)
+
+print([x**3 for x in range(1,11)])
+
+OUTPUT:
+[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+
+==================================================================================================================
+2. 
+'''
+Extract all vowels from a string into a list.
+'''
+vowels = [character for character in 'bilvantis technologies' if character.lower() in 'aeiou']
+print(vowels)
+
+vowels = [character if character.lower() in 'aeiou' else 'No' for character in 'bilvantis Technologies']
+print(vowels)
+
+
+OUTPUT:
+['i', 'a', 'i', 'e', 'o', 'o', 'i', 'e']
+['No', 'i', 'No', 'No', 'a', 'No', 'No', 'i', 'No', 'No', 'No', 'e', 'No', 'No', 'No', 'o', 'No', 'o', 'No', 'i', 'e', 'No']
+
+
+==================================================================================================================
+3.
+'''
+Create a list of words longer than 3 letters from a given sentence.
+'''
+
+list_words = [word for word in 'I am is Hello No worry'.split(' ') if len(word) > 3]
+print(list_words)
+
+OUTPUT:
+['Hello', 'worry']
+
+=================================================================================================================
+
+4.
+'''
+Given names = ['Sameera', 'Tanveer', 'Ali'], create a dictionary mapping each name to its length.
+'''
+names = ['Sameera', 'Tanveer', 'Ali']
+name_len_map = {name:len(name) for name in names}
+print(name_len_map)
+
+OUTPUT:
+{'Sameera': 7, 'Tanveer': 7, 'Ali': 3}
+
+==================================================================================================================
+
+5.
+'''
+Given {'a':1, 'b':2, 'c':3}, create a new dict with values squared.
+'''
+squares_dict = {key:value*value for key, value in {'a':1, 'b':2, 'c':3}.items()}
+print(squares_dict)
+
+OUTPUT:
+{'a': 1, 'b': 4, 'c': 9}
+
+=================================================================================================================
+
+6.
+'''
+Convert a list of tuples [('a',1), ('b',2)] to a dictionary using comprehension.
+'''
+tup_dict = {element[0]:element[1] for element in [('a',1), ('b',2)]}
+print(tup_dict)
+
+OUTPUT:
+{'a': 1, 'b': 2}
+
+=================================================================================================================
+
+7.
+'''
+Given a dictionary of student marks, create another dict with grades (e.g. if marks ≥ 90 → 'A', else if ≥ 75 → 'B', etc.) using dictionary comprehension.
+'''
+student_marks = {'stud1':90, 'stud2':28, 'stud3':66, 'stud4':88, 'stud5':46}
+student_grade = {student: ('A' if marks>=90  else 'B' if marks>= 75  else 'C' if marks>=50 else 'F') for student,marks in student_marks.items()}
+print(student_grade)
+
+OUTPUT:
+{'stud1': 'A', 'stud2': 'F', 'stud3': 'C', 'stud4': 'B', 'stud5': 'F'}
+
+=================================================================================================================
+
+8.
+'''
+numbers = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+'''
+numbers = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+even_nums = [number for l_element in numbers for number in l_element if number%2==0]
+print(even_nums)
+
+OUTPUT:
+[2, 4, 6, 8]
+
+================================================================================================================
+9.
+'''
+Task: Use a dictionary comprehension to count frequency of each character in the string.
+Expected output example: {'c':1, 'o':1, 'm':1, ...}
+text = "comprehension"
+'''
+text = "comprehension"
+# outp = {char : outp[char] += 1 if char in outp else char :outp[char] = 1 for char in text}
+outp = {char:text.count(char) for char in text.lower()}
+print(outp)
+
+OUTPUT:
+{'c': 1, 'o': 2, 'm': 1, 'p': 1, 'r': 1, 'e': 2, 'h': 1, 'n': 2, 's': 1, 'i': 1}
+
+=================================================================================================================
+
+10.
+'''
+You have two lists — names = ["Alice", "Bob", "Charlie"] and scores = [85, 92, 78].
+Use comprehension to create a dict {name: score} but only include students who scored >80.
+'''
+names = ["Alice", "Bob", "Charlie"]
+scores = [85, 92, 78]
+
+student_marks = {name:score for name, score  in zip(names,scores) if score>80}
+print(student_marks)
+
+OUTPUT:
+{'Alice': 85, 'Bob': 92}
+
+================================================================================================================
+
+11.
+'''
+Digit Extractor:
+Given a string like "Data123Science456", extract all the digits and convert them into a list of integers using comprehension
+'''
+s = "Data123Science456"
+int_list = [int(char) for char in s if char.isdigit()]
+print(int_list)
+
+OUTPUT:
+[1, 2, 3, 4, 5, 6]
+
+==================================================================================================================
+12.
+'''
+Create all pairs (fruit, color) only if the first letter of the fruit matches the first letter of the color.
+'''
+fruits = ["apple", "anana", "cherry"]
+colors = ["aed", "cellow", "bink"]
+soln = [(fruit,color) for fruit in fruits for color in colors if fruit[0]==color[0]]
+print(soln)
+
+OUTPUT:
+[('apple', 'aed'), ('anana', 'aed'), ('cherry', 'cellow')]
+
+=================================================================================================================
+
+13.
+'''
+Use dictionary comprehension to:
+Include only employees earning >50,000
+Give them a 10% bonus in the new dictionary
+'''
+employees = {'Alice': 50000, 'Bob': 72000, 'Charlie': 48000, 'Diana': 85000}
+soln = {emp_name:round(salary*1.1,2) if salary>50000 else salary for emp_name, salary in employees.items()}
+print(soln)
+
+OUTPUT:
+{'Alice': 50000, 'Bob': 79200.0, 'Charlie': 48000, 'Diana': 93500.0}
+
+=================================================================================================================
+
+14.
+# Open a file and print the longest word present in it.
+length=[]
+words=[]
+with open("data.txt","r") as t:
+    content=t.readlines()
+    for i in content:
+        for j in i.strip("\n").split(" "):
+            words.append(j)
+            length.append(len(j))
+    print(words,length)
+    max_length=max(length)
+    index=length.index(max_length)
+    print(f"The word is {words[index]}")
+
+OUTPUT:
+['Positive', 'Number', 'Negative', 'Number', 'Loop-else', 'Executed!'] [8, 6, 8, 6, 9, 9]
+The word is Loop-else
+
