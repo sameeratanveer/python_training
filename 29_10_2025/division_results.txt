@@ -1,0 +1,5 @@
+10/2
+ = 5.0
+8/0
+ = Cannot divide by Zero!
+5/5 = 1.0

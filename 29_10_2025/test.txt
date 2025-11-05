@@ -1,0 +1,5 @@
+Write a program that:
+Takes a filename from the user.
+Tries to open and read the file.
+If the file doesn’t exist, catch the exception and print "File not found. Please check the name."
+If successful, print the file content.
