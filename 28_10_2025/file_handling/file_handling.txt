@@ -1,0 +1,86 @@
+FILE HANDLING AND EXCEPTION HANDLING:
+
+'''
+Create a text file with 5 lines and read:
+Entire content at once
+Only the first two lines
+All lines in a list and print their count
+'''
+
+# writes to file
+file_object = open('text.txt', 'w')
+file_object.write("Hello world!\nNice to meet you\nWelcome!")
+file_object.close()
+
+# reads from file.
+file_object = open('text.txt', 'r')
+print("Reads the entire content at once.")
+print(file_object.read())
+file_object.close()
+print()
+file_object = open('text.txt', 'r')
+print("Reads only the first two lines")
+file_content_list = file_object.readlines()
+print(file_content_list)
+print(f"1st line: {file_content_list[1]}")
+print(f"2nd line: {file_content_list[2]}")
+print("All lines in a list and their count")
+for line_num, line in enumerate(file_content_list):
+    print(f"{line_num}. {line}")
+print(f"Total lines: {len(file_content_list)}")
+file_object.close()
+
+OUTPUT:
+Reads the entire content at once.
+Hello world!
+Nice to meet you
+Welcome!
+
+Reads only the first two lines
+['Hello world!\n', 'Nice to meet you\n', 'Welcome!']
+1st line: Hello world!
+
+2nd line: Nice to meet you
+All lines in a list and their count
+0. Hello world!
+
+1. Nice to meet you
+
+2. Welcome!
+Total lines: 3
+
+=================================================================================================================
+
+'''
+Write a program that takes user input and writes it to a file.
+Append user’s name and timestamp to the same file each time it runs.
+Write multiple lines using a list with writelines().
+'''
+from datetime import  datetime
+user_input = []
+while True:
+    current_inp = input("Enter input: ")
+    user_input.append(current_inp+f' Sameera - {datetime.now()}\n')
+    contin = input("Would you like to continue? 'y/Y' to continue else 'n/N': ")
+    if contin.lower() != 'y':
+        break
+with open('userfile.txt', 'w') as f:
+    f.writelines(user_input)
+
+with open('userfile.txt', 'r') as f:
+    print(f.read())
+
+OUTPUT:
+Enter input: Hello
+Would you like to continue? 'y/Y' to continue else 'n/N': y
+Enter input: Welcome back!
+Would you like to continue? 'y/Y' to continue else 'n/N': y
+Enter input: Nice to meet you!
+Would you like to continue? 'y/Y' to continue else 'n/N': n
+Hello Sameera - 2025-10-28 10:53:51.290909
+Welcome back! Sameera - 2025-10-28 10:53:57.204868
+Nice to meet you! Sameera - 2025-10-28 10:54:07.487158
+
+==============================================================================================================
+
+
