@@ -1,0 +1,306 @@
+------------------------------------ 1. MATH MODULE ---------------------------------------------------------
+
+
+1.1: 
+'''
+Compute the Euclidean distance between two user-input points using math.dist().
+'''
+import math
+point1x = float(input("Enter the point1 x : "))
+point1y = float(input("Enter the point1 y : "))
+point2x = float(input("Enter the point2 x : "))
+point2y = float(input("Enter the point2 y : "))
+print(f"Euclidean distance between {point1x:.2f}, {point1y:.2f} and {point2x:.2f}, {point2y:.2f}  = {math.dist((point1x, point1y),(point2x,point2y))}")
+
+OUTPUT:
+Enter the point1 x : 1
+Enter the point1 y : 2
+Enter the point2 x : 4
+Enter the point2 y : 6
+Euclidean distance between 1.00, 2.00 and 4.00, 6.00  = 5.0
+
+================================================================================================================
+
+1.2:
+'''
+Take an integer and display its factorial, square root, cube root, and logarithm (base 10).
+'''
+import math
+number = int(input("Enter an integer! :"))
+print(f"Factorial of {number} is {math.factorial(number)}")
+print(f"Square root of {number} is {math.sqrt(number):.2f}")
+print(f"Cube root of {number} is {math.cbrt(number):.2f}")
+print(f"Log10 of {number} is {math.log10(number):.2f}")
+print(f"log base 10 of {number} is {math.log(number, 10):.2f}")
+
+OUTPUT:
+Enter an integer! :5
+Factorial of 5 is 120
+Square root of 5 is 2.24
+Cube root of 5 is 1.71
+Log10 of 5 is 0.70
+log base 10 of 5 is 0.70
+
+==============================================================================================================
+1.3:
+'''
+Convert user-entered angle degrees → radians → sin, cos, tan.
+'''
+
+import math
+angle = float(input("Enter angle: "))
+print(f"Angle {angle} -> radians {math.radians(angle):.2f}")
+print(f"sin({angle}) = {math.sin(angle):.2f}")
+print(f"cos({angle}) = {math.cos(angle):.2f}")
+print(f"tan({angle}) = {math.tan(angle):.2f}")
+
+
+OUTPUT:
+Enter angle: 45
+Angle 45.0 -> radians 0.79
+sin(45.0) = 0.85
+cos(45.0) = 0.53
+tan(45.0) = 1.62
+
+================================================================================================================
+
+1.4: 
+'''
+Calculate area and circumference of a circle (use math.pi).
+pi r*2
+2 pi r
+'''
+from math import pi
+r = float(input("Enter the radius of the circle: "))
+print(f"Area of the circle : {pi*r*r}")
+print(f"Circumference of the circle: {2*pi*r}")
+
+OUTPUT:
+Enter the radius of the circle: 5
+Area of the circle : 78.53981633974483
+Circumference of the circle: 31.41592653589793
+
+================================================================================================================
+
+1.5:
+'''
+Create a function that checks if two floating-point values are “close” (using math.isclose())
+'''
+import math
+print(f"1.04 and 1.14 are close? {math.isclose(1.04, 1.09)}")
+
+OUTPUT:
+1.04 and 1.14 are close? False
+due to relaitive tolerance.
+
+===============================================================================================================
+
+------------------------------------------------ 2. RANDOM MODULE ---------------------------------------------------------------------------------
+
+2.1:
+'''
+Generate 5 random integers between 10 and 50.
+'''
+import random
+random_5_ints = []
+for i in range(5):
+    random_5_ints.append(random.randint(10,50))
+print(random_5_ints)
+
+OUTPUT:
+[22, 30, 16, 47, 47]
+
+===============================================================================================================
+
+2.2: 
+'''
+Pick a random color from a list of 6 colors.
+'''
+import random
+
+colors = ['Red', 'Blue', 'Green', 'Pink', 'Black', 'Blue']
+print(f"Random color from {colors} = {random.choice(colors)}")
+
+OUTPUT:
+Random color from ['Red', 'Blue', 'Green', 'Pink', 'Black', 'Blue'] = Green
+
+================================================================================================================
+
+2.3:
+'''
+Generate a list of 10 random floats between 0 and 1.
+'''
+import random
+random_10_floats =[]
+for i in range(10):
+    random_10_floats.append(random.random())
+print(random_10_floats)
+
+OUTPUT:
+[0.17532985562592496, 0.8893204922395894, 0.1492138234743131, 0.6182813489865793, 0.3289121846446946, 0.10506270512637494, 0.5155021696019291, 0.968939546351605, 0.6164939974122633, 0.6811025345575817]
+
+=============================================================================================================
+
+2.4:
+'''
+Simulate a dice rolling game until you roll a 6.
+'''
+import random
+dice_roll = random.randint(1,6)
+print(dice_roll)
+while dice_roll != 6:
+    dice_roll = random.randint(1,6)
+    print(dice_roll)
+if dice_roll == 6:
+    print("Successfully done!")
+
+OUTPUT:
+2
+1
+2
+2
+5
+1
+4
+5
+2
+2
+2
+4
+3
+3
+2
+3
+4
+3
+1
+3
+2
+2
+2
+4
+3
+5
+6
+Successfully done!
+
+===============================================================================================================
+
+2.5:
+'''
+Randomly shuffle a list of numbers from 1–10 and display them.
+'''
+
+import random
+lst = list(range(1,11))
+print(lst)
+for i in range(10):
+    random.shuffle(lst)
+    print(f"Shuffle{i} = {lst}")
+
+OUTPUT:
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Shuffle0 = [7, 4, 6, 2, 8, 10, 3, 5, 1, 9]
+Shuffle1 = [2, 10, 6, 7, 5, 1, 8, 4, 9, 3]
+Shuffle2 = [10, 7, 1, 8, 2, 9, 4, 6, 3, 5]
+Shuffle3 = [8, 4, 1, 6, 7, 10, 9, 2, 5, 3]
+Shuffle4 = [7, 1, 9, 4, 10, 8, 5, 3, 6, 2]
+Shuffle5 = [9, 3, 4, 5, 10, 8, 2, 7, 6, 1]
+Shuffle6 = [5, 2, 7, 3, 4, 1, 10, 9, 8, 6]
+Shuffle7 = [5, 6, 1, 2, 10, 9, 7, 8, 4, 3]
+Shuffle8 = [1, 2, 6, 10, 7, 9, 5, 8, 3, 4]
+Shuffle9 = [6, 8, 7, 2, 4, 5, 3, 10, 1, 9]
+
+================================================================================================================
+
+2.6:
+'''
+Generate a random password of length 12 using random.choices().
+'''
+import random
+import string
+available_chars = string.ascii_letters + string.digits + '!@#_$%'
+password = ''.join(random.choices(available_chars, k=12))
+print(password)
+
+OUTPUT:
+ALLNo%CxVjb5
+
+================================================================================================================
+
+2.7:
+'''
+Write a function lottery_draw() that:
+Takes N tickets (e.g., numbers 1–100)
+Randomly picks 5 unique winners
+Ensures repeatable results with a fixed seed
+'''
+import random
+def lottery_draw(tickets):
+    random.seed(40)
+    winners = random.sample(tickets, k=5)
+    return winners
+
+print(lottery_draw([1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]))
+
+OUTPUT:
+[1008, 1009, 1001, 1002, 1003]
+
+==================================================================================================================
+
+2.8:
+'''
+Simulate 1000 coin tosses (Heads/Tails) and show the probability of heads.
+'''
+
+import random
+random.seed(10)
+choices = ['H', 'T']
+head_count = 0
+for i in range(1000):
+    if random.choice(choices) == 'H':
+        head_count += 1
+print(head_count)
+print(f"Probability = {head_count/1000}")
+
+# or
+head_counts = random.choices(choices, k=1000)
+h_counts = sum(1 for x in head_counts if x == 'H')
+print(f"Probability: {h_counts/len(head_counts)}")
+
+# or
+print(f"probability : {head_counts.count('H')/1000}")
+
+OUTPUT:
+493
+Probability = 0.493
+Probability: 0.51
+probability : 0.51
+
+===============================================================================================================
+
+----------------------------------------------------- 3. DATETIME -------------------------------------------------------
+3.1:
+'''
+Print today’s date in format: Thursday, 30 October 2025
+'''
+
+from datetime import date
+today = date.today()
+print(today.strftime('%A, %d %B %Y'))
+
+OUTPUT:
+Friday, 31 October 2025
+
+============================================================================================================================
+
+3.2:
+'''
+Print date 90 days from today
+'''
+import datetime
+today_date = datetime.datetime.today()
+print(f"90 days today: {today_date + datetime.timedelta(days=90)}")
+
+==========================================================================================================================
+
