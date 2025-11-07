@@ -1,0 +1,168 @@
+math is a module in python which mainly comes under numerical operations.
+It is a module that provide common mathematical functions and constants.
+
+most of the functions defined in math module supports real numbers not complex numbers!
+So, for complex numbers numerical operations, we need to use cmath module instead.
+
+All functions in math module returns float values..
+
+🔢 Number-Theoretic Functions
+Function	Description
+math.comb(n, k)	Returns number of combinations: ways to choose k items from n without repetition or order.
+math.perm(n, k)	Returns number of permutations: ways to arrange k items from n.
+math.factorial(n)	Returns factorial of n (n!). Only accepts non-negative integers.
+math.gcd(*integers)	Returns the greatest common divisor (GCD) of given integers.
+math.lcm(*integers)	Returns least common multiple (LCM) of given integers.
+math.isqrt(n)	Returns integer square root of n (i.e., floor of √n).
+Example
+import math
+
+print(math.comb(5, 2))     # 10
+print(math.perm(5, 2))     # 20
+print(math.factorial(5))   # 120
+print(math.gcd(24, 36))    # 12
+print(math.lcm(12, 15))    # 60
+print(math.isqrt(17))      # 4
+
+
+🧠 Note:
+
+math.comb() and math.perm() were added in Python 3.8.
+
+math.isqrt() returns an integer, not a float.
+
+⚙️ Floating-Point Arithmetic Functions
+Function	Description
+ceil(x)	Smallest integer ≥ x
+floor(x)	Largest integer ≤ x
+fabs(x)	Absolute value of x (always float)
+fmod(x, y)	Remainder of division x/y (sign same as numerator)
+trunc(x)	Integer part of x (drops decimals)
+modf(x)	Returns fractional and integer parts as tuple
+remainder(x, y)	IEEE 754-style remainder
+fma(x, y, z)	Fused multiply-add = (x * y) + z, more precise than separate ops
+Example
+math.ceil(4.2)      # 5
+math.floor(4.9)     # 4
+math.fabs(-7.5)     # 7.5
+math.fmod(9, 4)     # 1.0
+math.trunc(3.8)     # 3
+math.modf(5.75)     # (0.75, 5.0)
+math.fma(2, 3, 4)   # 10.0
+
+⚖️ Floating-Point Manipulation Functions
+Function	Description
+math.copysign(x, y)	Returns x with the sign of y
+math.frexp(x)	Decomposes x into (mantissa, exponent)
+math.ldexp(x, i)	Returns x * (2**i) (inverse of frexp)
+math.isclose(a, b, rel_tol, abs_tol)	Tests if two floats are “close enough”
+math.isfinite(x)	True if not infinity or NaN
+math.isinf(x)	True if x is ±infinity
+math.isnan(x)	True if x is NaN
+math.nextafter(x, y, steps)	Next float after x toward y
+math.ulp(x)	Distance between x and next representable float
+Example
+math.copysign(5, -2)       # -5.0
+math.frexp(8)              # (0.5, 4)  since 8 = 0.5 * 2**4
+math.ldexp(0.5, 4)         # 8.0
+math.isclose(0.1 + 0.2, 0.3, rel_tol=1e-9)   # True
+math.isfinite(999999)      # True
+math.isinf(float('inf'))   # True
+math.isnan(float('nan'))   # True
+
+🔺 Power, Exponential, and Logarithmic Functions
+Function	Description
+math.exp(x)	Returns eˣ
+math.exp2(x)	Returns 2ˣ
+math.expm1(x)	Returns eˣ - 1 (more accurate for small x)
+math.log(x, base)	Logarithm of x in base (default = e)
+math.log1p(x)	log(1 + x) — avoids precision loss
+math.log2(x)	Base-2 log
+math.log10(x)	Base-10 log
+math.pow(x, y)	xʸ (returns float)
+math.sqrt(x)	Square root
+math.cbrt(x)	Cube root (added in Python 3.11)
+Example
+math.exp(2)         # e^2 = 7.389
+math.log(8, 2)      # 3.0
+math.sqrt(25)       # 5.0
+math.cbrt(27)       # 3.0
+
+➕ Summation and Product Functions
+Function	Description
+math.fsum(iterable)	High-precision sum
+math.prod(iterable, start=1)	Product of iterable elements
+math.dist(p, q)	Euclidean distance between 2 points
+math.hypot(*coords)	Euclidean norm (√(x² + y² + …))
+math.sumprod(p, q)	Sum of products of corresponding elements
+Example
+math.fsum([0.1]*10)        # 1.0 (exact)
+math.prod([1, 2, 3, 4])    # 24
+math.dist((1, 2), (4, 6))  # 5.0
+math.hypot(3, 4)           # 5.0
+
+🧭 Angular Conversion
+Function	Description
+math.degrees(x)	Convert radians → degrees
+math.radians(x)	Convert degrees → radians
+Example
+math.degrees(math.pi)   # 180.0
+math.radians(90)        # 1.5708
+
+📐 Trigonometric Functions
+Function	Description
+sin(x)	Sine of x
+cos(x)	Cosine of x
+tan(x)	Tangent of x
+asin(x)	Inverse sine
+acos(x)	Inverse cosine
+atan(x)	Inverse tangent
+atan2(y, x)	atan(y/x), quadrant-aware
+Example
+math.sin(math.pi/2)   # 1.0
+math.cos(0)           # 1.0
+math.atan2(1, 1)      # 0.785 radians
+
+🌈 Hyperbolic Functions
+Function	Description
+sinh(x)	Hyperbolic sine
+cosh(x)	Hyperbolic cosine
+tanh(x)	Hyperbolic tangent
+asinh(x)	Inverse sinh
+acosh(x)	Inverse cosh
+atanh(x)	Inverse tanh
+🧮 Special Functions
+Function	Description
+erf(x)	Error function
+erfc(x)	Complementary error function
+gamma(x)	Gamma function
+lgamma(x)	Log of abs(Gamma(x))
+
+Used in probability, statistics, and scientific computations.
+
+🔢 Constants
+Constant	Meaning
+math.pi	π = 3.141592653589793
+math.e	e = 2.718281828459045
+math.tau	τ = 2π = 6.283185307179586
+math.inf	Positive infinity
+math.nan	Not a number
+⚠️ Common Errors
+
+Domain Error:
+
+math.sqrt(-4)  # ValueError: math domain error
+
+
+✅ Use cmath.sqrt() for complex numbers.
+
+TypeError:
+
+math.factorial(4.5)
+# TypeError: 'float' object cannot be interpreted as an integer
+
+
+Precision Issues:
+
+0.1 + 0.2 == 0.3  # False
+math.isclose(0.1 + 0.2, 0.3)  # True ✅
