@@ -1,0 +1,70 @@
+random module is a built-in module of Python.
+It uses deterministic algorithms to generate the random numbers for various distributions.
+
+1. random.random() -> returns a random float number from the range 0.0 - 1.0
+2. random.uniform(a,b) -> returns random float number from the given range. [inclusive]
+3. random.randint(a,b) -> returns random int number from the given range [inclusive]
+4. random.randrange(start,stop,step) -> picks random element from the range.
+5. random.choice(sequence) -> picks random choice from the sequence.
+6️⃣ random.choices(population, weights=None, k=1)
+
+→ Returns a list of random elements with replacement (can repeat elements).
+
+weights controls selection probability.
+
+k defines how many elements to choose.
+
+print(random.choices(['A', 'B', 'C'], weights=[10, 1, 1], k=5))
+# More likely to get 'A'
+
+7️⃣ random.sample(population, k)
+
+→ Returns a list of k unique elements (no repetition).
+
+print(random.sample([1, 2, 3, 4, 5], 3))  # Example: [2, 5, 1]
+
+8️⃣ random.shuffle(list)
+
+→ Shuffles the list in place (changes the original list).
+
+deck = [1, 2, 3, 4, 5]
+random.shuffle(deck)
+print(deck)  # Example: [4, 1, 5, 2, 3]
+
+9️⃣ random.seed(x=None)
+
+→ Initializes the random number generator with a seed value.
+→ Helps in reproducibility (same random results every time for same seed).
+
+random.seed(10)
+print(random.random())
+
+🧮 3. Advanced Statistical Functions
+random.gauss(mu, sigma)
+
+→ Returns a random float from a Gaussian (Normal) distribution.
+
+print(random.gauss(0, 1))  # mean=0, std=1
+
+random.expovariate(lambd)
+
+→ Exponential distribution; models waiting times (e.g., time between events).
+
+print(random.expovariate(1/5))  # Mean time of 5 units
+
+random.betavariate(alpha, beta)
+random.gammavariate(alpha, beta)
+random.triangular(low, high, mode)
+
+→ Used for scientific simulations, probability modeling, etc.
+
+⚙️ 4. Internal Working (how Python makes randomness)
+
+Python’s random numbers are generated using the Mersenne Twister algorithm — fast, high-quality pseudo-random generator.
+
+It’s deterministic (not secure).
+
+For secure randomness (like OTPs or passwords), use secrets module:
+
+import secrets
+print(secrets.token_hex(8))  # Secure random hex string
